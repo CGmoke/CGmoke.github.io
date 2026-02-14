@@ -2,69 +2,6 @@
 export const photoAlbumData = {
   images: [
     {
-      label: "五一 济南龙洞徒步 🏳️‍🌈",
-      time: "2025/05/04",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250504.jpg",
-    },
-    {
-      label: "异地视频",
-      time: "2025/04/19",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250419.jpg",
-    },
-    {
-      label: "地铁 🚇",
-      time: "2025/04/13",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250413.jpg",
-    },
-    {
-      label: "高铁 🚄",
-      time: "2025/04/05",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250405.jpg",
-    },
-    {
-      label: "公园 🌳",
-      time: "2025/03/23",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250323.jpg",
-    },
-    {
-      label: "青岛 🌊",
-      time: "2025/03/15",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250315.jpg",
-    },
-    {
-      label: "安丘-泰华 ❤️‍🔥",
-      time: "2025/02/22",
-      size: {
-        width: 0,
-        height: 0,
-      },
-      href: "https://chetxu.chetserenade.info/article/250222.jpg",
-    },
-    {
       label: "婚纱照",
       time: "2024/08/11",
       size: {
