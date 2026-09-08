@@ -15,6 +15,6 @@ export default defineConfig({
       wrap: false,
     },
   },
-  site: 'https://JedXu.info',
+  site: 'https://CGmoke.github.io',
   integrations: [tailwind(),vue()],
 });
