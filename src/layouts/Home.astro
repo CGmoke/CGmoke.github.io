@@ -3,7 +3,7 @@ import ToggleTheme from '@/components/ToggleTheme'
 import BaseLayout from './BaseLayout.astro'
 import config from '../config'
 
-let avatar = 'https://chetxu.chetserenade.info/article/avatar.jpg'
+let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
 ---
 
 <BaseLayout title={Astro.props.title ? `${Astro.props.title} | ${config.title}` : config.title}>
@@ -84,7 +84,7 @@ let avatar = 'https://chetxu.chetserenade.info/article/avatar.jpg'
 
       <div class="toggle bg-frostedGlass dark:bg-markerShadow mobile header-navbar" data-pagefind-ignore>
         <div class="toggle-menu" id="toggle"><i class="iconfont icon-menu"></i></div>
-        <div class="header-slogan" data-pagefind-ignore>Jed's log</div>
+        <div class="header-slogan" data-pagefind-ignore>{config.title}</div>
         <div class="toggle-menu">
           <!-- <PageFind transition:persist /> -->
         </div>

@@ -5,10 +5,7 @@ import Calendar from '@/components/vue/Calendar'
 import PageFind from '@/components/PageFind'
 import { getArticleData } from '@/server/getters/article'
 
-import twitter from '../images/twitter.svg'
 import github from '../images/github.svg'
-import juejin from '../images/juejin.svg'
-import youtube from '../images/youtube.svg'
 
 // Article collection
 const articleData = await getArticleData()
@@ -16,23 +13,8 @@ const articleData = await getArticleData()
 const contacts = [
   {
     icon: github,
-    url: 'https://github.com/JedediahXu',
+    url: 'https://github.com/CGmoke',
     title: 'Github',
-  },
-  {
-    icon: juejin,
-    url: 'https://juejin.cn/user/3685218709411085',
-    title: 'Juejin',
-  },
-  {
-    icon: twitter,
-    url: 'https://twitter.com/Lc0916x',
-    title: 'Twitter',
-  },
-  {
-    icon: youtube,
-    url: 'https://www.youtube.com/channel/UCpdQkDyM_c2rLeFNJWc0crQ',
-    title: 'YouTube',
   },
 ]
 ---

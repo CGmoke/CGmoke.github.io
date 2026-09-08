@@ -1,9 +1,18 @@
 # Editor directories and files
-.vscode
+.vscode/
+.idea/
+.DS_Store
 
-node_modules
-/dist
+# Dependencies
+node_modules/
+
+# Build output (Astro / Pagefind)
+dist/
+.astro/
+
+# Logs
+npm-debug.log*
+yarn-error.log*
 
 *.sh
-node_modules*
 pnpm-lock.yaml

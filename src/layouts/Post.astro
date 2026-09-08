@@ -1,6 +1,5 @@
 ---
 import Home from '../layouts/Home.astro'
-import Donate from '@/components/vue/Donate'
 import ListRelatedPosts from '@/components/ListRelatedPosts'
 import TOC from '@/components/TOC'
 import BaseLayout from './BaseLayout.astro'
@@ -40,9 +39,6 @@ const relatedPosts = filteredPosts.slice(0, 4)
     </div>
     <div>
       <ListRelatedPosts posts={relatedPosts} />
-    </div>
-    <div>
-      <Donate client:only="vue" />
     </div>
     <div slot="catalogue"><TOC headings={headings} frontmatter={frontmatter} /></div>
   </Home>

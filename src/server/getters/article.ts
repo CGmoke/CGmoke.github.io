@@ -1,7 +1,7 @@
 /**
  * @file Article getter
  * @module server.getter.article
- * @author JedediahXu <https://github.com/JedediahXu>
+ * @author CGmoke <https://github.com/CGmoke>
  */
 
 import fs from 'fs';

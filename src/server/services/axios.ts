@@ -1,7 +1,7 @@
 /**
  * @file  Server fetcher
  * @module server.service.axios
- * @author JedediahXu <https://github.com/JedediahXu>
+ * @author CGmoke <https://github.com/CGmoke>
  */
 
 // Reference: @author Surmon <https://github.com/surmon-china>

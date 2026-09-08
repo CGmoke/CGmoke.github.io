@@ -1,31 +1,31 @@
 /**
  * @file GitHub getter
  * @module server.getter.github
- * @author JedediahXu <https://github.com/JedediahXu>
+ * @author CGmoke <https://github.com/CGmoke>
  */
 
 // Reference: @author Surmon <https://github.com/surmon-china>
 
 import axios from '../services/axios'
-// @ts-ignore
-const PUBLIC__SECRET_TOKEN = import.meta.env.PUBLIC__SECRET_TOKEN;
+
+// 可选：在 .env 或部署平台环境变量中配置 PUBLIC_GITHUB_TOKEN（https://github.com/settings/tokens）。
+// 未配置时，贡献日历会优雅降级为空数据，不影响页面展示。
+const TOKEN = import.meta.env.PUBLIC_GITHUB_TOKEN || ''
+
+const EMPTY_CONTRIBUTION = {
+  totalContributions: 0,
+  weeks: [],
+}
 
 const graphqlGitHub = <T = any>(query: string): Promise<T> => {
   return axios
     .request<any>({
-      // https://github.com/settings/tokens
-      // Set the environment variable in Netlify to store your private token
-      
-      // TODO: Look out.
-      // Here I do not do the proxy on the server side, 
-      // Authorization will be exposed in the browser,
-      // which will cause potential hazards. 
-      headers: { Authorization: `bearer ${PUBLIC__SECRET_TOKEN}` },
+      headers: { Authorization: `bearer ${TOKEN}` },
       url: `https://api.github.com/graphql`,
       method: 'POST',
       data: JSON.stringify({
         query: `query {
-        user(login: "JedediahXu") {
+        user(login: "CGmoke") {
           ${query}
         }
       }`
@@ -43,10 +43,14 @@ const isISODateString = (dateString: string) => {
   return new Date(dateString).toISOString() === dateString
 }
 
-
 export const getGitHubContributions = async (from: string, to: string): Promise<any> => {
   if (!isISODateString(from) || !isISODateString(to)) {
     return Promise.reject('Invalid date string!')
+  }
+
+  // 未配置 Token 时直接返回空数据，避免请求失败与浏览器报错
+  if (!TOKEN) {
+    return EMPTY_CONTRIBUTION
   }
 
   const result = await graphqlGitHub(`
@@ -64,6 +68,6 @@ export const getGitHubContributions = async (from: string, to: string): Promise<
       }
     }
   `)
-  
+
   return result.contributionsCollection.contributionCalendar
 }

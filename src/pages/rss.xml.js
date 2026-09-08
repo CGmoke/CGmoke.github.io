@@ -17,7 +17,7 @@ export async function GET(context) {
   const allPosts = { ...posts, ...otherPosts,...reship };
   return rss({
     title: config.title,
-    description: `Jed is blogging about life, tech.`,
+    description: `沧歌的博客 —— 记录学习、生活与思考。`,
     site: context.site,
     items: Object.values(allPosts).map(allPosts => ({
       title: allPosts.frontmatter.title,

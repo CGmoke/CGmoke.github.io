@@ -1,12 +1,11 @@
 {
-  "name": "blog-2023",
+  "name": "cgmoke-blog",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro preview ",
     "build": "astro build && pagefind --site dist",
-    "postbuild": "pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
