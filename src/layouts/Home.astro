@@ -7,164 +7,180 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
 ---
 
 <BaseLayout title={Astro.props.title ? `${Astro.props.title} | ${config.title}` : config.title}>
-  <div>
-    <div class="lg:flex home">
-      <div id="pc-container" class="sm:px-10 lg:mt-10 py-20 desktop nav-view">
-        <div class="sticky top-5 flex flex-col gap-4">
-          <div class="relative w-32 h-32 bg-cover bg-center inline-block mx-auto group">
-            <img class="rounded-full border-4 border-white/20 dark:border-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105" src={avatar} alt="头像" />
+  <div class="relative min-h-screen w-full">
+    <div class="flex w-full">
+      <aside
+        id="sidebar-desktop"
+        class="hidden lg:flex lg:flex-col fixed top-0 left-0 h-screen w-80 px-8 py-12 overflow-y-auto z-30"
+      >
+        <div class="flex flex-col gap-5 items-center w-full">
+          <div class="relative group">
+            <img
+              class="w-28 h-28 rounded-full border-4 border-white/20 dark:border-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105"
+              src={avatar}
+              alt="头像"
+            />
             <div class="absolute -bottom-1 -right-1">
               <ToggleTheme />
             </div>
           </div>
-          <div class="mediate" data-pagefind-ignore>
-            <p class="font-bold text-2xl defaultColor text-center">{config.name}</p>
-            <div class="text-gray-500 dark:text-gray-400 text-base font-light my-2 text-center">
-              <p class="mt-1 italic">「 {config.signature} 」</p>
+          <div class="mediate w-full text-center" data-pagefind-ignore>
+            <p class="font-bold text-2xl defaultColor">{config.name}</p>
+            <div class="text-gray-500 dark:text-gray-400 text-sm font-light my-2">
+              <p class="italic">「 {config.signature} 」</p>
             </div>
           </div>
 
-          <div class="flex lg:flex-col gap-2 mx-auto nav-webfont" data-pagefind-ignore>
+          <nav class="flex flex-col gap-2 w-full nav-webfont" data-pagefind-ignore>
             {
               config.navs.map((nav) => {
                 const { pathname } = Astro.url
                 const trimmedPathname = pathname === '/' ? pathname : pathname.replace(/\/$/, '')
                 const isActive = trimmedPathname === nav.url
                 return (
-                  <a href={nav.url} class:list={isActive ? 'active' : ''} rel={nav.url.startsWith('http') ? 'noopener' : undefined}>
+                  <a
+                    href={nav.url}
+                    class:list={isActive ? 'active' : ''}
+                    rel={nav.url.startsWith('http') ? 'noopener' : undefined}
+                  >
                     {nav.title}
                   </a>
                 )
               })
             }
-          </div>
-          <div class="text-slate-500 dark:text-slate-400 text-xs mediate text-center" data-pagefind-ignore>
+          </nav>
+          <div class="text-slate-500 dark:text-slate-400 text-xs mediate text-center mt-2" data-pagefind-ignore>
             <p class="mb-1">✨ Blog since {config.since}</p>
             <p>Made with ❤️ by Astro</p>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div id="mobile-container" class="sm:px-10 lg:mt-10 py-20 mobile mobile-menu opened">
-        <div class="sticky top-5 flex flex-col gap-4">
-          <div class="mediate flex items-center gap-4 justify-center">
-            <div class="relative w-20 h-20 bg-cover bg-center inline-block">
-              <img class="rounded-full border-2 border-white/20 dark:border-white/10 shadow-lg" src={avatar} alt="头像" />
-              <div class="absolute -bottom-1 -right-1 scale-75">
-                <ToggleTheme />
-              </div>
-            </div>
-            <div class="text-left">
-              <p class="font-bold text-xl font-name">{config.name}</p>
-              <div class="text-gray-400 text-sm font-light">
-                <p class="italic">「 {config.signature} 」</p>
-              </div>
-            </div>
+      <div
+        id="mobile-navbar"
+        class="fixed top-0 left-0 w-full z-40 lg:hidden"
+      >
+        <div class="toggle bg-frostedGlass/90 dark:bg-markerShadow/90 backdrop-blur-md header-navbar" data-pagefind-ignore>
+          <div class="toggle-menu" id="toggle">
+            <i class="iconfont icon-menu"></i>
           </div>
-          <div class="flex flex-wrap gap-3 mx-auto nav-webfont justify-center" data-pagefind-ignore>
-            {
-              config.navs.map((nav) => {
-                const { pathname } = Astro.url
-                const trimmedPathname = pathname === '/' ? pathname : pathname.replace(/\/$/, '')
-                const isActive = trimmedPathname === nav.url
-                return (
-                  <a href={nav.url} class:list={isActive ? 'active' : ''} rel={nav.url.startsWith('http') ? 'noopener' : undefined}>
-                    {nav.title}
-                  </a>
-                )
-              })
-            }
-          </div>
-          <div class="text-slate-500 dark:text-slate-400 text-xs mediate text-center" data-pagefind-ignore>
-            Blog since {config.since}
+          <div class="header-slogan" data-pagefind-ignore>{config.title}</div>
+          <div class="toggle-menu pr-2">
+            <ToggleTheme />
           </div>
         </div>
       </div>
 
-      <div class="toggle bg-frostedGlass dark:bg-markerShadow backdrop-blur-md mobile header-navbar" data-pagefind-ignore>
-        <div class="toggle-menu" id="toggle"><i class="iconfont icon-menu"></i></div>
-        <div class="header-slogan" data-pagefind-ignore>{config.title}</div>
-        <div class="toggle-menu scale-75">
-          <ToggleTheme />
+      <aside
+        id="sidebar-mobile"
+        class="fixed top-0 left-0 h-full w-3/4 max-w-sm z-50 lg:hidden -translate-x-full transition-transform duration-300 mobile-menu"
+      >
+        <div class="h-full w-full bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-lg overflow-y-auto">
+          <div class="flex flex-col gap-5 items-start p-8 pt-20">
+            <div class="flex items-center gap-4 w-full">
+              <div class="relative flex-shrink-0">
+                <img
+                  class="w-16 h-16 rounded-full border-2 border-white/20 dark:border-white/10 shadow-lg"
+                  src={avatar}
+                  alt="头像"
+                />
+              </div>
+              <div class="text-left flex-1 min-w-0">
+                <p class="font-bold text-xl font-name text-white">{config.name}</p>
+                <div class="text-gray-400 text-sm font-light truncate">
+                  <p class="italic">「 {config.signature} 」</p>
+                </div>
+              </div>
+            </div>
+            <nav class="flex flex-wrap gap-3 w-full nav-webfont justify-start" data-pagefind-ignore>
+              {
+                config.navs.map((nav) => {
+                  const { pathname } = Astro.url
+                  const trimmedPathname = pathname === '/' ? pathname : pathname.replace(/\/$/, '')
+                  const isActive = trimmedPathname === nav.url
+                  return (
+                    <a
+                      href={nav.url}
+                      class:list={isActive ? 'active' : ''}
+                      rel={nav.url.startsWith('http') ? 'noopener' : undefined}
+                    >
+                      {nav.title}
+                    </a>
+                  )
+                })
+              }
+            </nav>
+            <div class="text-slate-400 text-xs mediate text-left mt-2" data-pagefind-ignore>
+              Blog since {config.since}
+            </div>
+          </div>
         </div>
-      </div>
+      </aside>
 
-      <div id="shading" class="shading container-mains opened"></div>
+      <div
+        id="sidebar-mask"
+        class="fixed inset-0 z-40 bg-black/40 hidden lg:hidden backdrop-blur-sm"
+      ></div>
 
-      <div class="lg:mt-28 ml-52 md container-main opened">
-        <div class="container">
+      <main class="flex-1 min-w-0 w-full lg:ml-80">
+        <div class="container px-4 lg:px-12 pt-20 lg:pt-28 pb-16 lg:pb-28 max-w-6xl mx-auto relative">
           <slot />
         </div>
-      </div>
+      </main>
 
-      <div class="desktop">
-        <slot name="catalogue" />
-      </div>
+      <aside
+        class="hidden xl:block w-64 shrink-0 fixed top-0 right-0 h-screen z-20 pr-8 pt-28 overflow-y-auto desktop-only"
+      >
+        <div class="anchor catalogue w-full">
+          <slot name="catalogue" />
+        </div>
+      </aside>
     </div>
   </div>
 </BaseLayout>
 
+<style is:global>
+  @media (min-width: 1280px) {
+    main {
+      padding-right: 16rem !important;
+    }
+  }
+</style>
+
 <script>
-  // TODO: To be optimized
   document.addEventListener('astro:page-load', () => {
     const toggleButton = document.getElementById('toggle')
-    const toggleshading = document.getElementById('shading')
-    const mobileMenuSelector = '.mobile-menu'
-    const containerMainSelector = '.container-main'
-    const containerMainSelectors = '.container-mains'
-    const headerNavbarSelector = '.header-navbar'
-    const headerShading = '.shading'
+    const sidebarMobile = document.getElementById('sidebar-mobile')
+    const sidebarMask = document.getElementById('sidebar-mask')
+
+    function openMenu() {
+      sidebarMobile?.classList.remove('-translate-x-full')
+      sidebarMask?.classList.remove('hidden')
+      document.body.style.overflow = 'hidden'
+    }
+
+    function closeMenu() {
+      sidebarMobile?.classList.add('-translate-x-full')
+      sidebarMask?.classList.add('hidden')
+      document.body.style.overflow = ''
+    }
 
     if (toggleButton) {
       toggleButton.addEventListener('click', () => {
-        const mobileMenu = document.querySelector(mobileMenuSelector)
-        const containerMain = document.querySelector(containerMainSelector)
-        const containerMains = document.querySelector(containerMainSelectors)
-        const headerNavbar = document.querySelector(headerNavbarSelector)
-        const mobileheaderShading = document.querySelector(headerShading)
-
-        mobileMenu?.classList.toggle('opened-pc')
-        containerMain?.classList.toggle('opened-mobile')
-        containerMains?.classList.toggle('opened-mobile')
-        headerNavbar?.classList.toggle('opened-mobile')
-        mobileheaderShading?.classList.toggle('close-mask')
+        const isClosed = sidebarMobile?.classList.contains('-translate-x-full')
+        if (isClosed) openMenu(); else closeMenu()
       })
     }
 
-    if (toggleshading) {
-      toggleshading.addEventListener('click', () => {
-        const mobileMenu = document.querySelector(mobileMenuSelector)
-        const containerMain = document.querySelector(containerMainSelector)
-        const containerMains = document.querySelector(containerMainSelectors)
-        const headerNavbar = document.querySelector(headerNavbarSelector)
-        const mobileheaderShading = document.querySelector(headerShading)
-
-        mobileMenu?.classList.remove('opened-pc')
-        containerMain?.classList.remove('opened-mobile')
-        containerMains?.classList.remove('opened-mobile')
-        headerNavbar?.classList.remove('opened-mobile')
-        mobileheaderShading?.classList.remove('close-mask')
-      })
+    if (sidebarMask) {
+      sidebarMask.addEventListener('click', closeMenu)
     }
 
-    function toggleView() {
-      const pcContainer = document.getElementById('pc-container')
-      const mobileContainer = document.getElementById('mobile-container')
+    const mobileLinks = document.querySelectorAll('#sidebar-mobile a')
+    mobileLinks.forEach(link => link.addEventListener('click', closeMenu))
 
-      if (pcContainer && mobileContainer) {
-        if (window.innerWidth > 1010) {
-          pcContainer.style.display = 'block'
-          mobileContainer.style.display = 'none'
-          mobileContainer.innerHTML = ''
-        } else {
-          pcContainer.style.display = 'none'
-          mobileContainer.style.display = 'block'
-          pcContainer.innerHTML = ''
-        }
-      }
-    }
-
-    window.addEventListener('resize', toggleView)
-    toggleView()
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu()
+    })
   })
 </script>

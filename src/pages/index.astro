@@ -20,16 +20,16 @@ const contacts = [
 ---
 
 <Home>
-  <div class="text-sm-top be-with home-width">
-    <h2 class="font-bold mb-6 text-md desktop" data-pagefind-ignore>PERECENT TRENDS / 「 近期动态 」</h2>
-    <div class="desktop">
+  <div class="mb-10">
+    <h2 class="font-bold mb-6 text-lg" data-pagefind-ignore>📊 PERECENT TRENDS / 「 近期动态 」</h2>
+    <div class="hidden lg:block">
       <div id="skeleton" class="navigation-template bg-frostedGlass dark:bg-markerShadow"></div>
-      <div id="calendar">
+      <div id="calendar" class="w-full overflow-hidden rounded-lg border border-white/10 dark:border-white/5">
         <Calendar client:only="vue" article={articleData} />
       </div>
     </div>
-    <div class="prose-width mb-5 mt-2 text-md desktop">
-      <div class="navigation bg-frostedGlass dark:bg-markerShadow">
+    <div class="w-full mb-6 mt-2 max-w-3xl">
+      <div class="navigation bg-frostedGlass dark:bg-markerShadow flex-wrap">
         {
           contacts.map((contact) => {
             return (
@@ -43,9 +43,9 @@ const contacts = [
       </div>
     </div>
   </div>
-  <div class="text-sm" data-pagefind-ignore>
-    <h2 class="font-bold mt-6 mb-6 text-md desktop" data-pagefind-ignore>PERECENT ARTICLES/「 近期文章 」</h2>
-    <div class="ml-6 md:ml-0">
+  <div data-pagefind-ignore>
+    <h2 class="font-bold mt-2 mb-6 text-lg" data-pagefind-ignore>📝 PERECENT ARTICLES/「 近期文章 」</h2>
+    <div>
       <RecentList />
     </div>
   </div>

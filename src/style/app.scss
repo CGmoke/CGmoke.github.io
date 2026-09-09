@@ -208,3 +208,72 @@ html.dark .footer-links .vertical {
   display: none !important;
 }
 
+#sidebar-desktop {
+  display: none;
+}
+
+#mobile-navbar,
+#sidebar-mobile {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  #sidebar-desktop {
+    display: flex !important;
+    flex-direction: column;
+  }
+  #mobile-navbar {
+    display: none !important;
+  }
+  #sidebar-mobile {
+    display: none !important;
+  }
+}
+
+main {
+  margin-left: 0;
+}
+
+@media (min-width: 1024px) {
+  main {
+    margin-left: 20rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  main {
+    margin-left: 20rem;
+    margin-right: 16rem;
+  }
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .desktop-only {
+    display: block !important;
+  }
+}
+
+.anchor.catalogue .category-button {
+  cursor: pointer;
+}
+
+article,
+.post-content {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown-width {
+  max-width: 100%;
+}
+
+
