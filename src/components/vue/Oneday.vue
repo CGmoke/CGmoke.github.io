@@ -20,49 +20,34 @@ const getPointHeightStyle = (value: number) => {
     :data-date="date"
     :data-total-count="total"
     :data-contribution-count="contributions"
+    :data-article-count="articles"
     data-pagefind-ignore
   >
     <div class="point">
       <div
+        v-if="articles > 0"
         class="item article"
         :style="{ height: getPointHeightStyle(articles / total) }"
       />
-      <!-- <div
-        class="item instagram"
-        :style="{ height: getPointHeightStyle(instagrams / total) }"
-      /> -->
-      <!-- <div
-        class="item instagram"
-        :style="{
-          height: getPointHeightStyle(2 / 3),
-          backgroundColor: '#f6a6ac',
-        }"
-      /> -->
       <div
+        v-if="contributions > 0"
         class="item contribution"
         :style="{
-          height: getPointHeightStyle(3 / 3),
-          backgroundColor: githubColor,
+          height: getPointHeightStyle(contributions / total),
+          backgroundColor: githubColor || '#40c463',
         }"
       />
     </div>
-    <div class="tooltip bg-techNoir dark:bg-slate-800" v-if="total">
+    <div class="tooltip bg-techNoir dark:bg-slate-800" v-if="total > 0">
       <p class="date">{{ date }}</p>
       <ul class="counts">
         <li class="item article">
           <i class="iconfont icon-quill"></i>
-          <span class="count">发生 {{ articles }} 次</span>
-          articles
+          <span class="count">{{ articles }} 篇文章</span>
         </li>
-        <li class="item contribution">
+        <li v-if="contributions > 0" class="item contribution">
           <i class="iconfont icon-github"></i>
-          <span class="count">发生 {{ contributions }} 次</span>
-          contributions
-        </li>
-        <li class="item instagram">
-          <i class="iconfont icon-instagram"></i>
-          <span class="count">暂无数据</span>
-          instagrams
+          <span class="count">{{ contributions }} 次 commit</span>
         </li>
       </ul>
     </div>

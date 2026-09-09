@@ -31,29 +31,31 @@ const allTags = [...new Set(allPosts.flatMap((post) => {
 ---
 
 <Home title="文章归档">
-  <div class="mb-6 text-sm" data-pagefind-ignore>
-    <h1 class="text-xl font-medium mb-4 mt-2">📚 文章归档</h1>
+  <div class="text-sm" data-pagefind-ignore>
+    <h1 class="text-xl font-bold mb-6 mt-2 defaultColor flex items-center gap-2">
+      <span>📚</span> 文章归档
+    </h1>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+      <div class="surface-card p-4 text-center">
         <div class="text-3xl font-bold text-blue-500">{totalPosts}</div>
         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">总文章数</div>
       </div>
-      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+      <div class="surface-card p-4 text-center">
         <div class="text-3xl font-bold text-green-500">{totalCoding}</div>
         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">编程技术</div>
       </div>
-      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+      <div class="surface-card p-4 text-center">
         <div class="text-3xl font-bold text-purple-500">{totalBlog}</div>
         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">生活随笔</div>
       </div>
-      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+      <div class="surface-card p-4 text-center">
         <div class="text-3xl font-bold text-orange-500">{totalReship}</div>
         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">转载文章</div>
       </div>
     </div>
 
-    <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 mb-6 border border-white/10">
+    <div class="surface-card p-4 mb-6">
       <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
         <div class="flex-1 relative">
           <i class="iconfont icon-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
@@ -87,7 +89,7 @@ const allTags = [...new Set(allPosts.flatMap((post) => {
 
     {
       allTags.length > 0 && (
-        <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 mb-6 border border-white/10">
+        <div class="surface-card p-4 mb-8">
           <div class="text-sm font-bold mb-3 defaultColor">🏷️ 标签云</div>
           <div class="flex flex-wrap gap-2" id="tagCloud">
             {
@@ -112,58 +114,38 @@ const allTags = [...new Set(allPosts.flatMap((post) => {
     <div class="text-gray-500 dark:text-gray-400">换个关键词或筛选条件试试吧</div>
   </div>
 
-  <div id="articlesContainer">
-    <div class="text-sm items mb-10" data-category="编程" data-pagefind-ignore>
-      <h2 class="font-bold mb-6 mt-2 text-lg">💻 CODING /「 编程 」</h2>
-      <div>
-        <CodingList />
-      </div>
-    </div>
+  <div id="articlesContainer" class="text-sm">
+    <section class="mb-8 scroll-mt-24 items" data-category="编程" data-pagefind-ignore>
+      <h2 class="section-title defaultColor"><span>💻</span> 编程</h2>
+      <CodingList />
+    </section>
 
-    <div class="text-sm mt-1 items mb-10" data-category="生活" data-pagefind-ignore>
-      <h2 class="font-bold mb-6 text-lg">🌸 ESSAYS / 「 生活 」</h2>
-      <div>
-        <PostList />
-      </div>
-    </div>
+    <section class="mb-8 scroll-mt-24 items" data-category="生活" data-pagefind-ignore>
+      <h2 class="section-title defaultColor"><span>🌸</span> 生活</h2>
+      <PostList />
+    </section>
 
-    <div class="text-sm mt-1 items mb-10" data-category="转载" data-pagefind-ignore>
-      <h2 class="font-bold mb-6 text-lg">📰 RESHIP / 「 转载 」</h2>
-      <div>
-        <ReshipList />
-      </div>
-    </div>
+    <section class="mb-8 scroll-mt-24 items" data-category="转载" data-pagefind-ignore>
+      <h2 class="section-title defaultColor"><span>📰</span> 转载</h2>
+      <ReshipList />
+    </section>
   </div>
 
   <div slot="catalogue">
     <div class="anchor catalogue sm:px-10 lg:mt-28 lg:inline-block desktop">
-      <button class="header" title="文章">
-        <div class="title font-bold text-md desktop"># 文章分类</div>
-        <div
-          class="category-button rounded-lg mt-2 text-md hover:bg-slate-400 py-1"
-          data-category="编程"
-        >
-          「 编程 」
-        </div>
-        <div
-          class="category-button rounded-lg mt-2 text-md hover:bg-slate-400 py-1"
-          data-category="生活"
-        >
-          「 生活 」
-        </div>
-        <div
-          class="category-button rounded-lg mt-2 text-md hover:bg-slate-400 py-1"
-          data-category="转载"
-        >
-          「 转载 」
-        </div>
-        <div
-          class="category-button rounded-lg mt-2 text-md hover:bg-slate-400 py-1"
-          data-category="全部"
-        >
-          「 全部 」
-        </div>
-      </button>
+      <div class="title font-bold text-md"># 文章分类</div>
+      <a href="#articlesContainer" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400" data-category="编程">
+        「 编程 」
+      </a>
+      <a href="#articlesContainer" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400" data-category="生活">
+        「 生活 」
+      </a>
+      <a href="#articlesContainer" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400" data-category="转载">
+        「 转载 」
+      </a>
+      <a href="#articlesContainer" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400" data-category="全部">
+        「 全部 」
+      </a>
       <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
         <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">📅 年份归档</div>
         {
@@ -256,7 +238,7 @@ const allTags = [...new Set(allPosts.flatMap((post) => {
 
   function selectCategory(category: string): void {
     selectedCategory = category
-    const allButtons = document.querySelectorAll<HTMLElement>('.category-button')
+    const allButtons = document.querySelectorAll<HTMLElement>('[data-category]')
     allButtons.forEach((button) => {
       if (button.dataset.category === selectedCategory) {
         button.classList.add('bg-slate-400')
@@ -298,16 +280,14 @@ const allTags = [...new Set(allPosts.flatMap((post) => {
   }
 
   document.addEventListener('astro:page-load', () => {
-    const catalogueElement = document.querySelector<HTMLElement>('.anchor.catalogue')
-    if (catalogueElement) {
-      // @ts-ignore
-      catalogueElement.addEventListener('click', (event: HTMLElementEvent<HTMLElement>) => {
-        if (event.target.matches('.category-button')) {
-          // @ts-ignore
-          selectCategory(event.target.dataset.category)
+    const allCategoryButtons = document.querySelectorAll<HTMLElement>('[data-category]')
+    allCategoryButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.category) {
+          selectCategory(btn.dataset.category)
         }
       })
-    }
+    })
 
     const yearButtons = document.querySelectorAll<HTMLElement>('.year-btn')
     yearButtons.forEach((btn) => {

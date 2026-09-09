@@ -31,7 +31,7 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
             </div>
           </div>
 
-          <nav class="flex flex-col gap-2 w-full nav-webfont" data-pagefind-ignore>
+          <nav class="flex flex-col gap-1.5 w-full nav-webfont" data-pagefind-ignore>
             {
               config.navs.map((nav) => {
                 const { pathname } = Astro.url
@@ -43,7 +43,8 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
                     class:list={isActive ? 'active' : ''}
                     rel={nav.url.startsWith('http') ? 'noopener' : undefined}
                   >
-                    {nav.title}
+                    <span class="nav-icon">{nav.icon}</span>
+                    <span class="nav-label">{nav.title}</span>
                   </a>
                 )
               })
@@ -104,7 +105,8 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
                       class:list={isActive ? 'active' : ''}
                       rel={nav.url.startsWith('http') ? 'noopener' : undefined}
                     >
-                      {nav.title}
+                      <span class="nav-icon">{nav.icon}</span>
+                      <span class="nav-label">{nav.title}</span>
                     </a>
                   )
                 })

@@ -2,322 +2,565 @@
 import Home from '@/layouts/Home'
 import config from '../config'
 
-const skills = [
-  {
-    category: '🤖 机器人开发',
-    items: [
-      { name: 'ROS2', level: 90, color: 'bg-blue-500' },
-      { name: 'Nav2 导航栈', level: 85, color: 'bg-green-500' },
-      { name: 'MoveIt2 机械臂', level: 75, color: 'bg-purple-500' },
-      { name: 'Gazebo 仿真', level: 80, color: 'bg-orange-500' },
-    ]
-  },
-  {
-    category: '💻 编程语言',
-    items: [
-      { name: 'Python', level: 90, color: 'bg-yellow-500' },
-      { name: 'C/C++', level: 80, color: 'bg-blue-600' },
-      { name: 'TypeScript', level: 75, color: 'bg-blue-400' },
-      { name: 'Rust (学习中)', level: 40, color: 'bg-red-500' },
-    ]
-  },
-  {
-    category: '🌐 Web 开发',
-    items: [
-      { name: 'Vue3 / React', level: 85, color: 'bg-green-400' },
-      { name: 'Astro', level: 80, color: 'bg-purple-400' },
-      { name: 'Node.js', level: 75, color: 'bg-green-500' },
-      { name: 'TailwindCSS', level: 90, color: 'bg-cyan-500' },
-    ]
-  },
-  {
-    category: '🛠️ 工具 & 其他',
-    items: [
-      { name: 'Docker', level: 75, color: 'bg-blue-500' },
-      { name: 'Git / GitHub', level: 85, color: 'bg-gray-600' },
-      { name: 'Linux', level: 80, color: 'bg-yellow-600' },
-      { name: 'Blender', level: 50, color: 'bg-orange-400' },
-    ]
-  }
-]
-
-const timeline = [
-  {
-    year: '2025',
-    title: '博客上线',
-    description: '搭建个人博客，记录技术学习和生活点滴。开始深入研究 ROS2 生态系统。',
-    color: 'bg-pink-500',
-    icon: '🚀'
-  },
-  {
-    year: '2024',
-    title: '接触机器人开发',
-    description: '开始学习 ROS1/ROS2，参与移动机器人项目，负责导航算法调试。',
-    color: 'bg-blue-500',
-    icon: '🤖'
-  },
-  {
-    year: '2023',
-    title: 'Web 全栈探索',
-    description: '学习现代前端框架 Vue3、React，开始独立完成 Web 项目开发。',
-    color: 'bg-green-500',
-    icon: '🌐'
-  },
-  {
-    year: '2022',
-    title: '编程入门',
-    description: '从 C 语言开始，逐步接触 Python、数据结构与算法，打开编程世界的大门。',
-    color: 'bg-purple-500',
-    icon: '📚'
-  }
-]
+const avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
 
 const projects = [
   {
-    title: 'ROS2 移动机器人导航系统',
-    description: '基于 Nav2 的自主移动机器人导航方案，集成 SLAM 建图、路径规划、避障等功能。',
-    tags: ['ROS2', 'Nav2', 'SLAM', 'Python'],
-    link: 'https://github.com/CGmoke',
-    color: 'from-blue-500 to-cyan-500',
-    icon: '🤖'
-  },
-  {
-    title: '个人博客系统',
-    description: '基于 Astro + Vue3 构建的静态博客，支持 RSS、搜索、暗色主题、响应式设计。',
+    title: 'CGmoke.github.io',
+    description: '基于 Astro + Vue3 构建的个人博客，支持 RSS、全文搜索、暗色主题、响应式设计。',
     tags: ['Astro', 'Vue3', 'TailwindCSS'],
     link: 'https://github.com/CGmoke/CGmoke.github.io',
-    color: 'from-purple-500 to-pink-500',
-    icon: '📝'
+    lang: 'Astro',
+    langColor: '#BC52EE',
+    stars: '—',
+    forks: '—',
   },
   {
-    title: '机械臂运动规划 Demo',
-    description: '基于 MoveIt2 的六自由度机械臂运动规划项目，支持关节空间和笛卡尔空间规划。',
-    tags: ['ROS2', 'MoveIt2', 'C++'],
-    link: 'https://github.com/CGmoke',
-    color: 'from-orange-500 to-red-500',
-    icon: '🦾'
-  }
+    title: 'ROS2 Nav2 导航实战',
+    description: '系统整理 Nav2 导航栈教程，覆盖成本地图、行为树、路径规划与避障实战。',
+    tags: ['ROS2', 'Nav2', 'C++', 'Python'],
+    link: '/coding',
+    lang: 'C++',
+    langColor: '#f34b7d',
+    stars: '—',
+    forks: '—',
+  },
+  {
+    title: 'MoveIt2 机械臂教程',
+    description: '从运动学基础到 MoveIt2 实战规划，输出机械臂入门与进阶内容。',
+    tags: ['ROS2', 'MoveIt2'],
+    link: '/coding',
+    lang: 'C++',
+    langColor: '#f34b7d',
+    stars: '—',
+    forks: '—',
+  },
+  {
+    title: 'Gazebo 仿真专题',
+    description: '整理 Gazebo 仿真环境搭建与传感器仿真的实践经验。',
+    tags: ['Gazebo', 'ROS2'],
+    link: '/coding',
+    lang: 'Python',
+    langColor: '#3572A5',
+    stars: '—',
+    forks: '—',
+  },
+]
+
+const recentActivity = [
+  { type: 'commit', repo: 'CGmoke/CGmoke.github.io', desc: 'feat: 重构首页布局，新增 Roadmap 规划卡片', time: '今天' },
+  { type: 'commit', repo: 'CGmoke/CGmoke.github.io', desc: 'fix: 修复日历组件日期范围不匹配问题', time: '昨天' },
+  { type: 'article', repo: 'CGmoke/coding', desc: 'ROS2 Nav2 导航实战系列 (1/3)', time: '3 天前' },
+  { type: 'commit', repo: 'CGmoke/CGmoke.github.io', desc: 'feat: 统一 surface-card 样式，全站视觉收敛', time: '1 周前' },
 ]
 ---
 
 <Home title="关于我">
-  <div class="mx-auto mb-8 text-sm" data-pagefind-ignore>
-    <h1 class="text-xl font-medium mb-4 mt-2">👋 关于我</h1>
-    <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-6 border border-white/10 mb-6">
-      <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
-        <div class="flex-shrink-0">
-          <img
-            src="https://avatars.githubusercontent.com/u/202474769?v=4"
-            alt="头像"
-            class="w-32 h-32 rounded-full border-4 border-white/30 shadow-lg"
-          />
-        </div>
-        <div class="flex-1 text-center md:text-left">
-          <h2 class="text-2xl font-bold mb-2 defaultColor">沧歌</h2>
-          <p class="text-gray-600 dark:text-gray-300 mb-4 italic">「{config.signature}」</p>
-          <div class="space-y-2 defaultColor">
-            <p>嗨！我是沧歌，一个热爱技术与生活的开发者 🧑‍💻</p>
-            <p>专注于机器人开发、Web 全栈技术探索。从代码到生活，从技术到人文，我乐于在不同领域中寻找乐趣和意义。</p>
-            <p>这里记录着我的学习笔记、踩坑经历与一些随想，希望能与同好们一起成长 ✨</p>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
-            <a
-              href="https://github.com/CGmoke"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm transition-colors"
-            >
-              <span>🐙</span> GitHub
-            </a>
-            <a
-              href="/subscribe"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm transition-colors"
-            >
-              <span>📡</span> RSS 订阅
-            </a>
-            <a
-              href="/article"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors"
-            >
-              <span>📚</span> 浏览文章
-            </a>
-          </div>
-        </div>
+  <!-- GitHub Profile 风格头部 -->
+  <div class="profile-header mb-10" data-pagefind-ignore>
+    <div class="profile-avatar-wrap">
+      <img src={avatar} alt="头像" class="profile-avatar" />
+    </div>
+    <div class="profile-info">
+      <h1 class="profile-name defaultColor">{config.name}</h1>
+      <span class="profile-handle text-gray-500 dark:text-gray-400">@CGmoke</span>
+      <p class="profile-bio defaultColor">「 {config.signature} 」</p>
+      <div class="profile-stats">
+        <span class="profile-stat">
+          <strong>{config.roadmap.filter((i) => i.status === 'done').length}</strong>
+          <span>已完成</span>
+        </span>
+        <span class="profile-stat">·</span>
+        <span class="profile-stat">
+          <strong>{config.roadmap.filter((i) => i.status === 'doing').length}</strong>
+          <span>进行中</span>
+        </span>
+        <span class="profile-stat">·</span>
+        <span class="profile-stat">
+          <strong>{config.roadmap.filter((i) => i.status === 'todo').length}</strong>
+          <span>规划中</span>
+        </span>
+      </div>
+      <div class="profile-actions">
+        <a
+          href="https://github.com/CGmoke"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+        >
+          🐙 查看 GitHub
+        </a>
+        <a href="/article" class="btn-secondary">📚 浏览文章</a>
+        <a href="/subscribe" class="btn-secondary">📡 RSS 订阅</a>
       </div>
     </div>
   </div>
 
-  <div class="mx-auto mb-8 text-sm" data-pagefind-ignore>
-    <h2 class="font-bold mb-4 text-lg flex items-center gap-2 defaultColor">
-      <span>💡</span> 技能树
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {
-        skills.map((group) => (
-          <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-5 border border-white/10">
-            <h3 class="font-bold mb-4 defaultColor">{group.category}</h3>
-            <div class="space-y-3">
-              {
-                group.items.map((skill) => (
-                  <div>
-                    <div class="flex justify-between mb-1 text-sm defaultColor">
-                      <span>{skill.name}</span>
-                      <span class="text-gray-500 dark:text-gray-400">{skill.level}%</span>
-                    </div>
-                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div
-                        class={`h-full ${skill.color} rounded-full transition-all duration-1000`}
-                        style={`width: ${skill.level}%`}
-                      ></div>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  </div>
+  <!-- Tab 导航 -->
+  <nav class="profile-tabs mb-8" data-pagefind-ignore>
+    <a href="#overview" class="profile-tab active">📋 Overview</a>
+    <a href="#projects" class="profile-tab">📦 Projects</a>
+    <a href="#activity" class="profile-tab">📈 Activity</a>
+    <a href="#contact" class="profile-tab">📮 Contact</a>
+  </nav>
 
-  <div class="mx-auto mb-8 text-sm" data-pagefind-ignore>
-    <h2 class="font-bold mb-4 text-lg flex items-center gap-2 defaultColor">
-      <span>📅</span> 成长时间线
-    </h2>
-    <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-6 border border-white/10">
-      <div class="relative">
-        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 transform md:-translate-x-1/2"></div>
-        <div class="space-y-8">
-          {
-            timeline.map((item, index) => (
-              <div class:list={['relative flex flex-col md:flex-row gap-4 md:gap-0', index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse']}>
-                <div class="hidden md:block md:w-1/2"></div>
-                <div class={`absolute left-4 md:left-1/2 w-8 h-8 rounded-full ${item.color} flex items-center justify-center transform -translate-x-1/2 shadow-lg z-10 text-sm`}>
-                  {item.icon}
-                </div>
-                <div class:list={['ml-14 md:ml-0 md:w-1/2', index % 2 === 0 ? 'md:pl-12 md:text-left' : 'md:pr-12 md:text-right']}>
-                  <div class="bg-white/50 dark:bg-black/30 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="text-xs text-gray-500 dark:text-gray-400 mb-1 font-mono">{item.year}</div>
-                    <h4 class="font-bold mb-2 defaultColor">{item.title}</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">{item.description}</p>
-                  </div>
-                </div>
+  <!-- Overview -->
+  <section id="overview" class="mb-10 scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor"><span>📋</span> 个人简介</h2>
+    <div class="surface-card p-6">
+      <p class="defaultColor leading-relaxed mb-4">
+        嗨！我是<strong>沧歌</strong>，一个热爱技术与生活的开发者 🧑‍💻
+      </p>
+      <p class="defaultColor leading-relaxed mb-4">
+        专注于 <strong>机器人开发</strong> 与 <strong>Web 全栈技术</strong> 的交叉领域。从 ROS2 生态到前端工程化，从代码到生活，从技术到人文，我乐于在不同领域中寻找乐趣和意义。
+      </p>
+      <p class="defaultColor leading-relaxed">
+        这里记录着我的学习笔记、踩坑经历与一些随想，希望能与同好们一起成长 ✨
+      </p>
+    </div>
+  </section>
+
+  <!-- Pinned Projects -->
+  <section id="projects" class="mb-10 scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor"><span>📌</span> Pinned Projects</h2>
+    <div class="profile-projects">
+      {
+        projects.map((p) => (
+          <a href={p.link} target={p.link.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" class="profile-project surface-card">
+            <div class="profile-project-header">
+              <span class="profile-project-icon">📦</span>
+              <h3 class="profile-project-title defaultColor">{p.title}</h3>
+            </div>
+            <p class="profile-project-desc defaultColor">{p.description}</p>
+            <div class="profile-project-footer">
+              <div class="profile-project-lang">
+                <span class="profile-project-lang-dot" style={`background-color: ${p.langColor}`} />
+                {p.lang}
               </div>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mx-auto mb-8 text-sm" data-pagefind-ignore>
-    <h2 class="font-bold mb-4 text-lg flex items-center gap-2 defaultColor">
-      <span>🚀</span> 项目展示
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {
-        projects.map((project) => (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-5 border border-white/10 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 block"
-          >
-            <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center text-2xl mb-4 group-hover:rotate-6 transition-transform`}>
-              {project.icon}
-            </div>
-            <h4 class="font-bold mb-2 defaultColor group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-              {project.title}
-            </h4>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-              {project.description}
-            </p>
-            <div class="flex flex-wrap gap-1">
-              {
-                project.tags.map((tag) => (
-                  <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full">
-                    {tag}
-                  </span>
-                ))
-              }
+              <div class="profile-project-tags">
+                {p.tags.map((tag) => (
+                  <span class="profile-project-tag">{tag}</span>
+                ))}
+              </div>
             </div>
           </a>
         ))
       }
     </div>
-  </div>
+  </section>
 
-  <div class="mx-auto mb-8 text-sm" data-pagefind-ignore>
-    <h2 class="font-bold mb-4 text-lg flex items-center gap-2 defaultColor">
-      <span>📮</span> 联系我
-    </h2>
-    <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-6 border border-white/10">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <a
-          href="https://github.com/CGmoke"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex flex-col items-center p-4 rounded-lg bg-white/50 dark:bg-black/30 hover:bg-white/70 dark:hover:bg-black/50 transition-all"
-        >
-          <span class="text-3xl mb-2">🐙</span>
-          <div class="font-bold text-sm defaultColor">GitHub</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400">@CGmoke</div>
-        </a>
-        <a
-          href="/rss.xml"
-          class="flex flex-col items-center p-4 rounded-lg bg-white/50 dark:bg-black/30 hover:bg-white/70 dark:hover:bg-black/50 transition-all"
-        >
-          <span class="text-3xl mb-2">📡</span>
-          <div class="font-bold text-sm defaultColor">RSS</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400">订阅更新</div>
-        </a>
-        <a
-          href="/subscribe"
-          class="flex flex-col items-center p-4 rounded-lg bg-white/50 dark:bg-black/30 hover:bg-white/70 dark:hover:bg-black/50 transition-all"
-        >
-          <span class="text-3xl mb-2">📬</span>
-          <div class="font-bold text-sm defaultColor">订阅中心</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400">RSS & 专栏</div>
-        </a>
-        <a
-          href="https://github.com/CGmoke/CGmoke.github.io/issues"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex flex-col items-center p-4 rounded-lg bg-white/50 dark:bg-black/30 hover:bg-white/70 dark:hover:bg-black/50 transition-all"
-        >
-          <span class="text-3xl mb-2">💬</span>
-          <div class="font-bold text-sm defaultColor">留言反馈</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400">Issues</div>
-        </a>
-      </div>
-      <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center defaultColor">
-        <p class="mb-2">💬 如果你对我的博客或文章有任何建议，欢迎随时联系我！</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          「 读万卷书，行万里路，写万行代码 」
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="font-bold mb-3 text-md desktop" data-pagefind-ignore>LINKS /「 友链 」</h2>
-  <div class="mx-auto text-sm desktop" data-pagefind-ignore>
-    <div class="footer-links prose">
-      <div>
+  <!-- Activity -->
+  <section id="activity" class="mb-10 scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor"><span>📈</span> Recent Activity</h2>
+    <div class="surface-card p-0 overflow-hidden">
+      <div class="profile-activity">
         {
-          config.linkedList.length > 0 ? (
-            config.linkedList.map((res: { link: string; label: string }) => (
-              <>
-                <a class="item" href={res.link} target="_blank" rel="noopener noreferrer">
-                  {res.label}
-                </a>
-                <div class="vertical" />
-              </>
-            ))
-          ) : (
-            <span class="text-gray-500">{config.friend}</span>
-          )
+          recentActivity.map((a) => (
+            <div class="profile-activity-item">
+              <span class={`profile-activity-dot profile-activity-dot--${a.type}`} />
+              <div class="profile-activity-body">
+                <span class="profile-activity-desc defaultColor">{a.desc}</span>
+                <span class="profile-activity-meta">
+                  <span class="profile-activity-repo">{a.repo}</span>
+                  <span class="profile-activity-time">{a.time}</span>
+                </span>
+              </div>
+            </div>
+          ))
         }
       </div>
     </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor"><span>📮</span> Contact</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <a href="https://github.com/CGmoke" target="_blank" rel="noopener noreferrer" class="surface-card p-4 text-center contact-card">
+        <span class="text-2xl">🐙</span>
+        <div class="font-bold text-sm mt-1 defaultColor">GitHub</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">@CGmoke</div>
+      </a>
+      <a href="/rss.xml" class="surface-card p-4 text-center contact-card">
+        <span class="text-2xl">📡</span>
+        <div class="font-bold text-sm mt-1 defaultColor">RSS</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">订阅更新</div>
+      </a>
+      <a href="/subscribe" class="surface-card p-4 text-center contact-card">
+        <span class="text-2xl">📬</span>
+        <div class="font-bold text-sm mt-1 defaultColor">订阅中心</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">详细说明</div>
+      </a>
+      <a href="/article" class="surface-card p-4 text-center contact-card">
+        <span class="text-2xl">📚</span>
+        <div class="font-bold text-sm mt-1 defaultColor">文章归档</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">全部文章</div>
+      </a>
+    </div>
+  </section>
+
+  <div slot="catalogue">
+    <div class="anchor catalogue sm:px-10 lg:mt-28 lg:inline-block desktop">
+      <div class="title font-bold text-md"># 目录导航</div>
+      <a href="#overview" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 个人简介 」
+      </a>
+      <a href="#projects" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 项目展示 」
+      </a>
+      <a href="#activity" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 近期动态 」
+      </a>
+      <a href="#contact" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 联系方式 」
+      </a>
+    </div>
   </div>
 </Home>
+
+<style>
+  /* Profile Header */
+  .profile-header {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.12), rgba(167, 139, 250, 0.08));
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-avatar-wrap {
+    flex-shrink: 0;
+  }
+
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+
+  .profile-avatar:hover {
+    transform: scale(1.03);
+  }
+
+  .profile-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .profile-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .profile-handle {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+  }
+
+  .profile-bio {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .profile-stats {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .profile-stat {
+    color: #737373;
+  }
+
+  html.dark .profile-stat {
+    color: #a3a3a3;
+  }
+
+  .profile-stat strong {
+    color: #3b82f6;
+    margin-right: 0.25rem;
+  }
+
+  html.dark .profile-stat strong {
+    color: #93c5fd;
+  }
+
+  .profile-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  .btn-secondary {
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.06);
+    color: #525252;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  html.dark .btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: #a3a3a3;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  html.dark .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Tabs */
+  .profile-tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 0;
+    overflow-x: auto;
+  }
+
+  html.dark .profile-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: #737373;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .profile-tab:hover {
+    color: #3b82f6;
+  }
+
+  .profile-tab.active {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+    font-weight: 600;
+  }
+
+  /* Projects */
+  .profile-projects {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .profile-projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .profile-project {
+    padding: 1rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .profile-project-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .profile-project-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .profile-project-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .profile-project-desc {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #737373;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  html.dark .profile-project-desc {
+    color: #a3a3a3;
+  }
+
+  .profile-project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+  }
+
+  html.dark .profile-project-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-project-lang {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    color: #525252;
+  }
+
+  html.dark .profile-project-lang {
+    color: #a3a3a3;
+  }
+
+  .profile-project-lang-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .profile-project-tags {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .profile-project-tag {
+    font-size: 0.6875rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.05);
+    color: #6b7280;
+  }
+
+  html.dark .profile-project-tag {
+    background: rgba(255, 255, 255, 0.08);
+    color: #9ca3af;
+  }
+
+  /* Activity */
+  .profile-activity {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profile-activity-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    align-items: flex-start;
+  }
+
+  html.dark .profile-activity-item {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .profile-activity-item:last-child {
+    border-bottom: none;
+  }
+
+  .profile-activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+    background: #6b7280;
+  }
+
+  .profile-activity-dot--commit {
+    background: #3b82f6;
+  }
+
+  .profile-activity-dot--article {
+    background: #f59e0b;
+  }
+
+  .profile-activity-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .profile-activity-desc {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .profile-activity-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #737373;
+  }
+
+  html.dark .profile-activity-meta {
+    color: #a3a3a3;
+  }
+
+  .profile-activity-repo {
+    font-family: monospace;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .profile-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .profile-stats {
+      justify-content: center;
+    }
+
+    .profile-actions {
+      justify-content: center;
+    }
+  }
+</style>

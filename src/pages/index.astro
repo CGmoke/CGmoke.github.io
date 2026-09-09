@@ -1,14 +1,21 @@
 ---
 import Home from '@/layouts/Home'
 import RecentList from '@/components/Recent'
+import Roadmap from '@/components/Roadmap'
 import Calendar from '@/components/vue/Calendar'
 import PageFind from '@/components/PageFind'
+import config, { type RoadmapItem } from '../config'
 import { getArticleData } from '@/server/getters/article'
 
 import github from '../images/github.svg'
 
 // Article collection
 const articleData = await getArticleData()
+
+const codingPosts = await Astro.glob('../pages/coding/*.md')
+const blogPosts = await Astro.glob('../pages/blog/*.md')
+const reshipPosts = await Astro.glob('../pages/reship/*.md')
+const totalPosts = codingPosts.length + blogPosts.length + reshipPosts.length
 
 const contacts = [
   {
@@ -17,36 +24,125 @@ const contacts = [
     title: 'Github',
   },
 ]
+
+const roadmap = config.roadmap as RoadmapItem[]
+const roadmapCount = {
+  doing: roadmap.filter((item) => item.status === 'doing').length,
+  todo: roadmap.filter((item) => item.status === 'todo').length,
+  done: roadmap.filter((item) => item.status === 'done').length,
+}
+
+const stats = [
+  { value: totalPosts, label: '总文章数', icon: '📚', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+  { value: codingPosts.length, label: '编程技术', icon: '💻', color: 'text-green-500', bg: 'bg-green-500/10' },
+  { value: blogPosts.length, label: '生活随笔', icon: '🌸', color: 'text-purple-500', bg: 'bg-purple-500/10' },
+  { value: reshipPosts.length, label: '转载文章', icon: '📰', color: 'text-orange-500', bg: 'bg-orange-500/10' },
+]
 ---
 
 <Home>
-  <div class="mb-10">
-    <h2 class="font-bold mb-6 text-lg" data-pagefind-ignore>📊 PERECENT TRENDS / 「 近期动态 」</h2>
-    <div class="hidden lg:block">
-      <div id="skeleton" class="navigation-template bg-frostedGlass dark:bg-markerShadow"></div>
-      <div id="calendar" class="w-full overflow-hidden rounded-lg border border-white/10 dark:border-white/5">
-        <Calendar client:only="vue" article={articleData} />
-      </div>
-    </div>
-    <div class="w-full mb-6 mt-2 max-w-3xl">
-      <div class="navigation bg-frostedGlass dark:bg-markerShadow flex-wrap">
-        {
-          contacts.map((contact) => {
-            return (
-              <a class="navigation-a dark:hover:bg-lightGray hover:bg-crystalClear" target="_blank" href={contact.url}>
-                <img src={contact.icon.src} width={contact.icon.width} height={contact.icon.height} alt={contact.title} class="w-6" />
-              </a>
-            )
-          })
-        }
-        <PageFind transition:persist />
-      </div>
-    </div>
+  <!-- 顶部工具栏：社交链接 + 搜索 -->
+  <div class="navigation bg-frostedGlass dark:bg-markerShadow mb-8" data-pagefind-ignore>
+    {
+      contacts.map((contact) => {
+        return (
+          <a
+            class="navigation-a dark:hover:bg-lightGray hover:bg-crystalClear"
+            target="_blank"
+            href={contact.url}
+            aria-label={contact.title}
+          >
+            <img
+              src={contact.icon.src}
+              width={contact.icon.width}
+              height={contact.icon.height}
+              alt={contact.title}
+              class="w-6"
+            />
+          </a>
+        )
+      })
+    }
+    <PageFind transition:persist />
   </div>
-  <div data-pagefind-ignore>
-    <h2 class="font-bold mt-2 mb-6 text-lg" data-pagefind-ignore>📝 PERECENT ARTICLES/「 近期文章 」</h2>
+
+  <!-- 近期动态（统计 + 日历） -->
+  <section id="trends" class="mb-10 scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor">
+      <span>📊</span> 近期动态
+    </h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      {
+        stats.map((stat) => (
+          <div class="surface-card p-4 text-center">
+            <div class={`inline-flex w-10 h-10 items-center justify-center rounded-full ${stat.bg} text-xl mb-2`}>
+              {stat.icon}
+            </div>
+            <div class={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{stat.label}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div id="calendar" class="surface-card overflow-x-auto">
+      <Calendar client:only="vue" article={articleData} />
+    </div>
+  </section>
+
+  <!-- 近期规划 -->
+  <section id="roadmap" class="mb-10 scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor">
+      <span>🧭</span> 近期规划
+    </h2>
+    <Roadmap />
+  </section>
+
+  <!-- 近期文章 -->
+  <section id="articles" class="scroll-mt-24" data-pagefind-ignore>
+    <h2 class="section-title defaultColor">
+      <span>📝</span> 近期文章
+    </h2>
     <div>
       <RecentList />
+    </div>
+  </section>
+
+  <div slot="catalogue">
+    <div class="anchor catalogue sm:px-10 lg:mt-28 lg:inline-block desktop">
+      <div class="title font-bold text-md"># 首页导航</div>
+      <a href="#trends" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 近期动态 」
+      </a>
+      <a href="#roadmap" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 近期规划 」
+      </a>
+      <a href="#articles" class="category-button rounded-lg mt-2 text-md block py-1 hover:bg-slate-400">
+        「 近期文章 」
+      </a>
+
+      <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">🧭 规划速览</div>
+        <div class="flex justify-between items-center py-1 text-sm defaultColor">
+          <span>🚀 进行中</span>
+          <span class="text-xs bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400 px-2 py-0.5 rounded">
+            {roadmapCount.doing}
+          </span>
+        </div>
+        <div class="flex justify-between items-center py-1 text-sm defaultColor">
+          <span>📅 规划中</span>
+          <span class="text-xs bg-purple-100 text-purple-600 dark:bg-purple-900/40 dark:text-purple-400 px-2 py-0.5 rounded">
+            {roadmapCount.todo}
+          </span>
+        </div>
+        <div class="flex justify-between items-center py-1 text-sm defaultColor">
+          <span>✅ 已完成</span>
+          <span class="text-xs bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-400 px-2 py-0.5 rounded">
+            {roadmapCount.done}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </Home>

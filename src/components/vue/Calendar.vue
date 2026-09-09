@@ -9,13 +9,70 @@ const props = defineProps<{
   article: any;
 }>();
 
+// 计算合适的日期范围：覆盖最早文章日期 ~ 现在
+const allArticleDates = computed(() => {
+  const dates: string[] = [];
+  for (const week of props.article?.weeks || []) {
+    for (const day of week.contributionDays) {
+      if (day.contributionCount > 0) dates.push(day.date);
+    }
+  }
+  return dates.sort();
+});
+
 const now = new Date();
-const end = now.toISOString();
-now.setFullYear(now.getFullYear() - 1);
-const start = now.toISOString();
+const nowYear = now.getFullYear();
+const nowMonth = now.getMonth();
+
+// 起始月份：取最早文章日期或"现在-7个月"，取更早的
+let startYear = nowYear;
+let startMonth = nowMonth - 7; // 默认过去7个月
+while (startMonth < 0) {
+  startMonth += 12;
+  startYear -= 1;
+}
+
+if (allArticleDates.value.length > 0) {
+  const earliest = allArticleDates.value[0];
+  const earliestYear = parseInt(earliest.split("-")[0]);
+  const earliestMonth = parseInt(earliest.split("-")[1]) - 1; // JS month 0-indexed
+  if (
+    earliestYear < startYear ||
+    (earliestYear === startYear && earliestMonth <= startMonth)
+  ) {
+    startYear = earliestYear;
+    startMonth = earliestMonth;
+  }
+}
+
+// 生成月份列表（从 startYear/startMonth 到现在）
+const months: { year: number; month: number; days: string[] }[] = [];
+let curYear = startYear;
+let curMonth = startMonth;
+while (
+  curYear < nowYear ||
+  (curYear === nowYear && curMonth <= nowMonth)
+) {
+  const target = new Date(curYear, curMonth, 0);
+  const daysCount = target.getDate();
+  const monthDays = Array.from({ length: daysCount }).map((_, i) =>
+    humanDateToYMD({ ...dateToHuman(target), day: i + 1 })
+  );
+  months.push({ year: curYear, month: curMonth, days: monthDays });
+
+  curMonth++;
+  if (curMonth > 11) {
+    curMonth = 0;
+    curYear++;
+  }
+}
+
+// GitHub 贡献数据（用实际范围）
+const startISO = new Date(startYear, startMonth, 1).toISOString();
+const endISO = now.toISOString();
 
 try {
-  const res = await getGitHubContributions(start, end);
+  const res = await getGitHubContributions(startISO, endISO);
   data = res;
 } catch (error) {
   console.error("Error reading data:", error);
@@ -36,7 +93,7 @@ const createContributionsMap = (weeks: any) => {
   return contributionsMap;
 };
 
-const githubContributionsMap = computed(() => createContributionsMap(data.weeks));
+const githubContributionsMap = computed(() => createContributionsMap(data?.weeks || []));
 
 const articleContributionsMap = computed(() =>
   createContributionsMap(props.article.weeks)
@@ -54,42 +111,10 @@ const getDayArticles = (date: string) => {
   return articleContributionsMap.value.get(date)?.count || 0;
 };
 
-// current month | day
-const today = new Date();
-const todayHuman = dateToHuman(today);
-const currentMonthDays = Array.from({ length: todayHuman.day }).map((_, i) => {
-  return humanDateToYMD({ ...todayHuman, day: i + 1 });
-});
-
-const getPrevMonthFullDays = (date: HumanDate, prevMonths: number) => {
-  const targetMonth = new Date(date.year, date.month - prevMonths, 0);
-  const daysCount = targetMonth.getDate();
-  return Array.from({ length: daysCount }).map((d, i) => {
-    return humanDateToYMD({ ...dateToHuman(targetMonth), day: i + 1 });
-  });
-};
-
-// Show monthly quantity
-const months = [
-  getPrevMonthFullDays(todayHuman, 7),
-  getPrevMonthFullDays(todayHuman, 6),
-  getPrevMonthFullDays(todayHuman, 5),
-  getPrevMonthFullDays(todayHuman, 4),
-  getPrevMonthFullDays(todayHuman, 3),
-  getPrevMonthFullDays(todayHuman, 2),
-  getPrevMonthFullDays(todayHuman, 1),
-  currentMonthDays,
-];
-
-// remove placeholders
 const onCalendarRendered = () => {
   const skeletonElement = document.getElementById("skeleton");
   if (skeletonElement) {
     skeletonElement.remove();
-  }
-  const calendarElement = document.getElementById("calendar");
-  if (calendarElement) {
-    calendarElement.style.display = "block";
   }
 };
 
@@ -101,12 +126,16 @@ onMounted(() => {
 <template>
   <div class="calendar bg-crystalClear dark:bg-slate-800" data-pagefind-ignore>
     <ul class="aggregate-calendar">
-      <li class="month" v-for="(month, index) in months" :key="index">
+      <li
+        v-for="(month, index) in months"
+        :key="`${month.year}-${month.month}`"
+        class="month"
+        :title="`${month.year}-${String(month.month + 1).padStart(2, '0')}`"
+      >
         <calendar-day
-          v-for="(day, i) in month"
+          v-for="(day, i) in month.days"
           :key="i"
           :date="day"
-          :tweets="0"
           :articles="getDayArticles(day)"
           :contributions="getDayContributions(day)"
           :github-color="getDayGitHubColor(day)"
@@ -118,24 +147,13 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @use "sass:color";
-@use "@/style/mixins" as mixins;
 
 .calendar {
   border-radius: 4px;
   padding: 0.8rem;
   transition: background-color 0.25s;
-}
-
-@media (min-width: 1600px) and (max-width: 3999px) {
-  .calendar {
-    width: 690px;
-  }
-}
-
-@media (min-width: 1000px) and (max-width: 1600px) {
-  .calendar {
-    width: 630px;
-  }
+  width: 100%;
+  min-width: 560px;
 }
 
 .aggregate-calendar {

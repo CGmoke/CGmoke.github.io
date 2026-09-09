@@ -22,22 +22,21 @@ const relatedPosts = filteredPosts.slice(0, 4)
 
 <BaseLayout title={`${frontmatter.title} | ${config.title}`} ogType="article" ogDescription={frontmatter.ogDescription} ogImage={frontmatter.ogImage}>
   <Home title={`${frontmatter.title}`}>
-    <div id="markdown-body" class="markdown-body markdown-width bg-crystalClear dark:bg-markerShadow p-5 rounded-md dark:text-snowfallWhite">
+    <div id="markdown-body" class="markdown-body markdown-width surface-card surface-card--static p-6 dark:text-snowfallWhite">
       <h1>{frontmatter.title}</h1>
-      <div class="text-slate-500"></div>
-      <div class="text-slate-500">
-        <span class="categories">
+      <div class="text-slate-500 dark:text-slate-400 text-sm mt-2 mb-6 flex flex-wrap items-center gap-3">
+        <span class="inline-flex items-center gap-1">
           <i class="iconfont icon-clock-outlined"></i>
-          <span style="margin-left:5px">{dayjs(frontmatter.date).format('YYYY/MM/DD')}</span>
-          <span style="margin-left:15px">
-            <i class="iconfont icon-category"></i>
-            <span style="margin-left:5px">{frontmatter.categories}</span></span
-          >
+          <span>{dayjs(frontmatter.date).format('YYYY/MM/DD')}</span>
+        </span>
+        <span class="inline-flex items-center gap-1">
+          <i class="iconfont icon-category"></i>
+          <span>{frontmatter.categories}</span>
         </span>
       </div>
       <slot />
     </div>
-    <div>
+    <div class="mt-8">
       <ListRelatedPosts posts={relatedPosts} />
     </div>
     <div slot="catalogue"><TOC headings={headings} frontmatter={frontmatter} /></div>

@@ -52,14 +52,37 @@ html.dark .defaultColor {
 }
 
 .nav-webfont a {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
-  display: inline-block;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.6rem;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   width: 100%;
   text-align: left;
   position: relative;
   overflow: hidden;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #525252;
+}
+
+html.dark .nav-webfont a {
+  color: #a3a3a3;
+}
+
+.nav-webfont a .nav-icon {
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  width: 1.5rem;
+  text-align: center;
+  filter: grayscale(30%);
+  transition: filter 0.25s;
+}
+
+.nav-webfont a.active .nav-icon,
+.nav-webfont a:hover .nav-icon {
+  filter: grayscale(0%);
 }
 
 .nav-webfont a::before {
@@ -259,6 +282,47 @@ main {
 
 .anchor.catalogue .category-button {
   cursor: pointer;
+}
+
+// 统一的卡片容器基类：磨砂玻璃 + 圆角 + 细边框 + 悬停效果
+.surface-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
+}
+
+html.dark .surface-card {
+  background: rgba(68, 68, 68, 0.6);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.surface-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+html.dark .surface-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+// 静态卡片：无 hover 动效，用于文章正文等不希望悬浮的容器
+.surface-card--static,
+.surface-card--static:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+// 标题样式：与 about 页、subscribe 页保持一致
+.section-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 article,
