@@ -11,22 +11,20 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
     <div class="lg:flex home">
       <div id="pc-container" class="sm:px-10 lg:mt-10 py-20 desktop nav-view">
         <div class="sticky top-5 flex flex-col gap-4">
-          <div class="w-32 h-32 bg-cover bg-center inline-block mx-auto">
-            <img class="rounded" src={avatar} alt="头像" />
+          <div class="relative w-32 h-32 bg-cover bg-center inline-block mx-auto group">
+            <img class="rounded-full border-4 border-white/20 dark:border-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105" src={avatar} alt="头像" />
+            <div class="absolute -bottom-1 -right-1">
+              <ToggleTheme />
+            </div>
           </div>
           <div class="mediate" data-pagefind-ignore>
-            <p class="font-bold text-2xl defaultColor">{config.name}</p>
-            <div class="text-gray-500 text-base font-light my-2">
-              <div class="flex">
-                <div id="theme">
-                  <!-- <ToggleTheme /> -->
-                </div>
-                <span class="mt-1">{config.signature}</span>
-              </div>
+            <p class="font-bold text-2xl defaultColor text-center">{config.name}</p>
+            <div class="text-gray-500 dark:text-gray-400 text-base font-light my-2 text-center">
+              <p class="mt-1 italic">「 {config.signature} 」</p>
             </div>
           </div>
 
-          <div class="flex lg:flex-col gap-4 mx-auto nav-webfont" data-pagefind-ignore>
+          <div class="flex lg:flex-col gap-2 mx-auto nav-webfont" data-pagefind-ignore>
             {
               config.navs.map((nav) => {
                 const { pathname } = Astro.url
@@ -40,29 +38,30 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
               })
             }
           </div>
-          <div class="text-slate-500 text-sm mediate" data-pagefind-ignore>
-            Blog since {config.since}
+          <div class="text-slate-500 dark:text-slate-400 text-xs mediate text-center" data-pagefind-ignore>
+            <p class="mb-1">✨ Blog since {config.since}</p>
+            <p>Made with ❤️ by Astro</p>
           </div>
         </div>
       </div>
 
       <div id="mobile-container" class="sm:px-10 lg:mt-10 py-20 mobile mobile-menu opened">
         <div class="sticky top-5 flex flex-col gap-4">
-          <div class="mediate">
-            <div class="w-32 h-32 bg-cover bg-center inline-block mx-auto">
-              <img class="rounded" src={avatar} alt="头像" />
+          <div class="mediate flex items-center gap-4 justify-center">
+            <div class="relative w-20 h-20 bg-cover bg-center inline-block">
+              <img class="rounded-full border-2 border-white/20 dark:border-white/10 shadow-lg" src={avatar} alt="头像" />
+              <div class="absolute -bottom-1 -right-1 scale-75">
+                <ToggleTheme />
+              </div>
             </div>
-            <p class="font-bold text-2xl font-name">{config.name}</p>
-            <div class="text-gray-400 text-base font-light my-2">
-              <div class="flex">
-                <div id="theme">
-                  <!-- <ToggleTheme /> -->
-                </div>
-                <span class="mt-1">{config.signature}</span>
+            <div class="text-left">
+              <p class="font-bold text-xl font-name">{config.name}</p>
+              <div class="text-gray-400 text-sm font-light">
+                <p class="italic">「 {config.signature} 」</p>
               </div>
             </div>
           </div>
-          <div class="flex lg:flex-col gap-4 mx-auto nav-webfont" data-pagefind-ignore>
+          <div class="flex flex-wrap gap-3 mx-auto nav-webfont justify-center" data-pagefind-ignore>
             {
               config.navs.map((nav) => {
                 const { pathname } = Astro.url
@@ -76,23 +75,23 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
               })
             }
           </div>
-          <div class="text-slate-500 text-sm mediate" data-pagefind-ignore>
+          <div class="text-slate-500 dark:text-slate-400 text-xs mediate text-center" data-pagefind-ignore>
             Blog since {config.since}
           </div>
         </div>
       </div>
 
-      <div class="toggle bg-frostedGlass dark:bg-markerShadow mobile header-navbar" data-pagefind-ignore>
+      <div class="toggle bg-frostedGlass dark:bg-markerShadow backdrop-blur-md mobile header-navbar" data-pagefind-ignore>
         <div class="toggle-menu" id="toggle"><i class="iconfont icon-menu"></i></div>
         <div class="header-slogan" data-pagefind-ignore>{config.title}</div>
-        <div class="toggle-menu">
-          <!-- <PageFind transition:persist /> -->
+        <div class="toggle-menu scale-75">
+          <ToggleTheme />
         </div>
       </div>
 
       <div id="shading" class="shading container-mains opened"></div>
 
-      <div class="lg:mt-28  ml-52 md container-main opened">
+      <div class="lg:mt-28 ml-52 md container-main opened">
         <div class="container">
           <slot />
         </div>

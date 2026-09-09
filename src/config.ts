@@ -14,13 +14,16 @@ export default {
       url: '/article'
     },
     {
-      title: '关于我',
-      url: '/aboutme'
+      title: '订阅中心',
+      url: '/subscribe'
     },
     {
-      title: 'RSS订阅',
-      url: '/rss.xml'
+      title: '关于我',
+      url: '/aboutme'
     }
   ],
-  linkedList: [] as { label: string; link: string }[],
+  linkedList: [
+    { label: 'GitHub', link: 'https://github.com/CGmoke' },
+    { label: 'RSS 订阅', link: '/rss.xml' },
+  ] as { label: string; link: string }[],
 }

@@ -1,67 +1,57 @@
-<script>
-  class ThemeToggle extends HTMLElement {
-    #button: HTMLButtonElement | null = null
-    #sunIcon: HTMLElement | null = null
-    #moonIcon: HTMLElement | null = null
+<button
+  id="theme-toggle-btn"
+  class="relative h-9 w-9 rounded-lg bg-white/50 dark:bg-black/30 hover:bg-white/70 dark:hover:bg-black/50 transition-all duration-300 flex items-center justify-center border border-white/20 dark:border-white/10 shadow-sm hover:shadow-md group"
+  aria-label="切换主题"
+  title="切换主题"
+>
+  <span class="sun-icon absolute transition-all duration-300 text-yellow-500 group-hover:rotate-180">
+    <i class="iconfont icon-sun text-lg"></i>
+  </span>
+  <span class="moon-icon absolute transition-all duration-300 text-blue-300 group-hover:-rotate-12">
+    <i class="iconfont icon-moon text-lg"></i>
+  </span>
+</button>
 
-    constructor() {
-      super()
-      this.#initializeElements()
-      this.#button!.addEventListener('click', () => this.#toggleTheme())
-    }
-
-    #initializeElements() {
-      this.#button = this.querySelector('button') as HTMLButtonElement
-      this.#sunIcon = this.querySelector('.sun-icon') as HTMLElement
-      this.#moonIcon = this.querySelector('.moon-icon') as HTMLElement
-    }
-
-    #toggleTheme() {
-      const isPressed = this.#button!.getAttribute('aria-pressed') === 'true'
-      // TODO: Temporarily switch the theme off
-      // this.#dispatchThemeChangeEvent(isPressed ? 'light' : 'dark')
-      this.#updateIconsOpacity(isPressed)
-      this.#button!.setAttribute('aria-pressed', String(!isPressed))
-    }
-
-    #dispatchThemeChangeEvent(theme: string) {
-      const themeChangeEvent = new CustomEvent('theme-change', { detail: { theme } })
-      document.dispatchEvent(themeChangeEvent)
-    }
-
-    #updateIconsOpacity(isPressed: boolean) {
-      this.#sunIcon!.style.opacity = isPressed ? '1' : '0'
-      this.#moonIcon!.style.opacity = isPressed ? '0' : '1'
-    }
+<style>
+  #theme-toggle-btn .sun-icon {
+    opacity: 0;
+    transform: scale(0) rotate(-90deg);
   }
-
-  customElements.define('theme-toggle', ThemeToggle)
-</script>
+  #theme-toggle-btn .moon-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  html.dark #theme-toggle-btn .sun-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  html.dark #theme-toggle-btn .moon-icon {
+    opacity: 0;
+    transform: scale(0) rotate(90deg);
+  }
+</style>
 
 <script>
   document.addEventListener('astro:page-load', () => {
-    const button = document.getElementById('toggle-theme') as HTMLButtonElement
-    const sunIcon = document.querySelector('.sun-icon') as HTMLElement
-    const moonIcon = document.querySelector('.moon-icon') as HTMLElement
+    const btn = document.getElementById('theme-toggle-btn')
+    if (!btn || btn.dataset.bound) return
+    btn.dataset.bound = 'true'
 
-    function setButtonPressed() {
-      const bodyThemeIsDark = document.documentElement.classList.contains('dark')
-      button.setAttribute('aria-pressed', String(bodyThemeIsDark))
-      sunIcon.style.opacity = bodyThemeIsDark ? '0' : '1'
-      moonIcon.style.opacity = bodyThemeIsDark ? '1' : '0'
+    function currentTheme(): 'light' | 'dark' {
+      return document.documentElement.classList.contains('dark') ? 'dark' : 'light'
     }
 
-    setButtonPressed()
+    btn.addEventListener('click', () => {
+      const next = currentTheme() === 'dark' ? 'light' : 'dark'
+      // @ts-ignore
+      if (window.__setTheme) {
+        // @ts-ignore
+        window.__setTheme(next)
+      } else {
+        document.documentElement.classList.toggle('dark', next === 'dark')
+        localStorage.setItem('theme', next)
+      }
+      document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: next } }))
+    })
   })
 </script>
-
-<theme-toggle class="relative h-6 w-6">
-  <button id="toggle-theme" class="group" aria-label="Toggle Theme">
-    <span class="absolute left-0 right-0 top-0 opacity-0 sun-icon">
-      <i class="iconfont icon-sun"></i>
-    </span>
-    <span class="absolute left-0 right-0 top-0 opacity-0 moon-icon">
-      <i class="iconfont icon-moon"></i>
-    </span>
-  </button>
-</theme-toggle>

@@ -4,3 +4,207 @@
 @use './mobile.scss' as mobile;
 @use './iconfont.scss' as iconfont;
 @use './markdown.scss' as markdown;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(155, 155, 155, 0.5);
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 150, 255, 0.7);
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 150, 0.5);
+}
+
+.defaultColor {
+  color: #1a1a1a;
+}
+
+html.dark .defaultColor {
+  color: #e5e5e5;
+}
+
+.nav-webfont a {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-webfont a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(to bottom, #60a5fa, #a78bfa);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-webfont a.active {
+  background: linear-gradient(90deg, rgba(96, 165, 250, 0.15), rgba(167, 139, 250, 0.1));
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+html.dark .nav-webfont a.active {
+  color: #93c5fd;
+  background: linear-gradient(90deg, rgba(96, 165, 250, 0.2), rgba(167, 139, 250, 0.15));
+}
+
+.nav-webfont a.active::before {
+  transform: scaleY(1);
+}
+
+.nav-webfont a:not(.active):hover {
+  background: rgba(100, 150, 255, 0.08);
+  transform: translateX(4px);
+}
+
+html.dark .nav-webfont a:not(.active):hover {
+  background: rgba(100, 150, 255, 0.15);
+}
+
+.prose-width {
+  width: 100%;
+  max-width: 680px;
+}
+
+.home-width {
+  width: 100%;
+}
+
+.bg-frostedGlass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+html.dark .bg-markerShadow {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.article-item .list-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-item:hover {
+  transform: translateY(-2px);
+}
+
+.article-item .item-content {
+  transition: all 0.3s ease;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+}
+
+.navigation-a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.catalogue .category-button {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.catalogue .category-button.bg-slate-400 {
+  background: linear-gradient(90deg, #60a5fa, #a78bfa) !important;
+  color: white;
+}
+
+.footer-links {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+html.dark .footer-links {
+  background: rgba(68, 68, 68, 0.5);
+}
+
+.footer-links .item {
+  display: inline-flex;
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  margin-right: 0.25rem;
+}
+
+.footer-links .item:hover {
+  background: rgba(96, 165, 250, 0.15);
+  color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.footer-links .vertical {
+  display: inline-block;
+  width: 1px;
+  height: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  vertical-align: middle;
+  margin: 0 0.25rem;
+}
+
+html.dark .footer-links .vertical {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+

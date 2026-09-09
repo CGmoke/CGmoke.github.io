@@ -3,27 +3,135 @@ import Home from '@/layouts/Home'
 import PostList from '@/components/PostList'
 import CodingList from '@/components/Coding'
 import ReshipList from '@/components/Reship'
+
+const codingPosts = await Astro.glob('../pages/coding/*.md')
+const blogPosts = await Astro.glob('../pages/blog/*.md')
+const reshipPosts = await Astro.glob('../pages/reship/*.md')
+
+const allPosts = [...codingPosts, ...blogPosts, ...reshipPosts].sort((a, b) => {
+  //@ts-ignore
+  return new Date(b.frontmatter.date) - new Date(a.frontmatter.date)
+})
+
+const totalPosts = allPosts.length
+const totalCoding = codingPosts.length
+const totalBlog = blogPosts.length
+const totalReship = reshipPosts.length
+
+const years = [...new Set(allPosts.map((post) => {
+  //@ts-ignore
+  return new Date(post.frontmatter.date).getFullYear()
+}))].sort((a, b) => b - a)
+
+const allTags = [...new Set(allPosts.flatMap((post) => {
+  //@ts-ignore
+  const tags = post.frontmatter.tags
+  return Array.isArray(tags) ? tags : [tags]
+}))]
 ---
 
 <Home title="文章归档">
-  <div class="mx-auto text-sm items" data-category="编程" data-pagefind-ignore>
-    <h2 class="font-bold mb-6 mt-2 text-md desktop">CODING /「 编程 」</h2>
-    <div class="ml-6 md:ml-0">
-      <CodingList />
+  <div class="mb-6 text-sm" data-pagefind-ignore>
+    <h1 class="text-xl font-medium mb-4 mt-2">📚 文章归档</h1>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+        <div class="text-3xl font-bold text-blue-500">{totalPosts}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">总文章数</div>
+      </div>
+      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+        <div class="text-3xl font-bold text-green-500">{totalCoding}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">编程技术</div>
+      </div>
+      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+        <div class="text-3xl font-bold text-purple-500">{totalBlog}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">生活随笔</div>
+      </div>
+      <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 text-center border border-white/10">
+        <div class="text-3xl font-bold text-orange-500">{totalReship}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">转载文章</div>
+      </div>
     </div>
+
+    <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 mb-6 border border-white/10">
+      <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+        <div class="flex-1 relative">
+          <i class="iconfont icon-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="搜索文章标题或描述..."
+            class="w-full pl-10 pr-4 py-2 rounded-lg bg-white/50 dark:bg-black/30 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:text-white transition-all"
+          />
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <button
+            class="year-btn px-3 py-2 rounded-lg text-sm transition-all bg-blue-500 text-white"
+            data-year="all"
+          >
+            全部
+          </button>
+          {
+            years.map((year) => (
+              <button
+                class="year-btn px-3 py-2 rounded-lg text-sm transition-all bg-white/50 dark:bg-black/30 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                data-year={String(year)}
+              >
+                {year}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    {
+      allTags.length > 0 && (
+        <div class="bg-frostedGlass dark:bg-markerShadow backdrop-blur-md rounded-lg p-4 mb-6 border border-white/10">
+          <div class="text-sm font-bold mb-3 defaultColor">🏷️ 标签云</div>
+          <div class="flex flex-wrap gap-2" id="tagCloud">
+            {
+              allTags.map((tag) => (
+                <button
+                  class="tag-btn px-3 py-1 rounded-full text-xs transition-all bg-white/50 dark:bg-black/30 hover:bg-purple-100 dark:hover:bg-purple-900/30 defaultColor"
+                  data-tag={String(tag)}
+                >
+                  #{tag}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
   </div>
 
-  <div class="text-sm mt-1 items" data-category="生活" data-pagefind-ignore>
-    <h2 class="font-bold mb-6 text-md desktop">ESSAYS / 「 生活 」</h2>
-    <div class="ml-6 md:ml-0">
-      <PostList />
-    </div>
+  <div id="noResults" class="hidden text-center py-16 text-sm">
+    <div class="text-6xl mb-4">🔍</div>
+    <div class="defaultColor text-lg font-bold mb-2">没有找到相关文章</div>
+    <div class="text-gray-500 dark:text-gray-400">换个关键词或筛选条件试试吧</div>
   </div>
 
-  <div class="text-sm mt-1 items" data-category="转载" data-pagefind-ignore>
-    <h2 class="font-bold mb-6 text-md desktop">RESHIP / 「 转载 」</h2>
-    <div class="ml-6 md:ml-0">
-      <ReshipList />
+  <div id="articlesContainer">
+    <div class="mx-auto text-sm items" data-category="编程" data-pagefind-ignore>
+      <h2 class="font-bold mb-6 mt-2 text-md desktop">CODING /「 编程 」</h2>
+      <div class="ml-6 md:ml-0">
+        <CodingList />
+      </div>
+    </div>
+
+    <div class="text-sm mt-1 items" data-category="生活" data-pagefind-ignore>
+      <h2 class="font-bold mb-6 text-md desktop">ESSAYS / 「 生活 」</h2>
+      <div class="ml-6 md:ml-0">
+        <PostList />
+      </div>
+    </div>
+
+    <div class="text-sm mt-1 items" data-category="转载" data-pagefind-ignore>
+      <h2 class="font-bold mb-6 text-md desktop">RESHIP / 「 转载 」</h2>
+      <div class="ml-6 md:ml-0">
+        <ReshipList />
+      </div>
     </div>
   </div>
 
@@ -49,7 +157,30 @@ import ReshipList from '@/components/Reship'
         >
           「 转载 」
         </div>
+        <div
+          class="category-button rounded-lg mt-2 text-md hover:bg-slate-400 py-1"
+          data-category="全部"
+        >
+          「 全部 」
+        </div>
       </button>
+      <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">📅 年份归档</div>
+        {
+          years.map((year) => {
+            const yearCount = allPosts.filter((p) => {
+              //@ts-ignore
+              return new Date(p.frontmatter.date).getFullYear() === year
+            }).length
+            return (
+              <div class="flex justify-between items-center py-1 text-sm defaultColor">
+                <span>{year} 年</span>
+                <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">{yearCount}</span>
+              </div>
+            )
+          })
+        }
+      </div>
     </div>
   </div>
 </Home>
@@ -60,18 +191,71 @@ import ReshipList from '@/components/Reship'
   }
 
   let selectedCategory: string = '全部'
+  let selectedYear: string = 'all'
+  let selectedTag: string | null = null
+  let searchQuery: string = ''
 
-  function selectCategory(category: string): void {
-    selectedCategory = category
+  function applyFilters() {
     const allItems = document.querySelectorAll<HTMLElement>('.items')
+    const allArticleItems = document.querySelectorAll<HTMLElement>('.article-item')
+    const noResults = document.getElementById('noResults')
+    const articlesContainer = document.getElementById('articlesContainer')
+
+    let hasVisibleCategory = false
     allItems.forEach((item) => {
-      if (item.dataset.category === selectedCategory || selectedCategory === '全部') {
+      const category = item.dataset.category
+      if (selectedCategory === '全部' || category === selectedCategory) {
         item.style.display = 'block'
+        hasVisibleCategory = true
       } else {
         item.style.display = 'none'
       }
     })
 
+    let visibleCount = 0
+    allArticleItems.forEach((item) => {
+      const title = item.querySelector('.title')?.textContent?.toLowerCase() || ''
+      const description = item.querySelector('.description')?.textContent?.toLowerCase() || ''
+      const metaDate = item.querySelector('.meta, .item-meta')?.textContent || ''
+
+      let matchesYear = true
+      if (selectedYear !== 'all') {
+        matchesYear = metaDate.includes(selectedYear)
+      }
+
+      let matchesSearch = true
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase()
+        matchesSearch = title.includes(query) || description.includes(query)
+      }
+
+      let matchesTag = true
+      if (selectedTag) {
+        const fullText = (title + description).toLowerCase()
+        matchesTag = fullText.includes(selectedTag.toLowerCase())
+      }
+
+      if (matchesYear && matchesSearch && matchesTag) {
+        item.style.display = 'block'
+        visibleCount++
+      } else {
+        item.style.display = 'none'
+      }
+    })
+
+    if (noResults && articlesContainer) {
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden')
+        articlesContainer.classList.add('hidden')
+      } else {
+        noResults.classList.add('hidden')
+        articlesContainer.classList.remove('hidden')
+      }
+    }
+  }
+
+  function selectCategory(category: string): void {
+    selectedCategory = category
     const allButtons = document.querySelectorAll<HTMLElement>('.category-button')
     allButtons.forEach((button) => {
       if (button.dataset.category === selectedCategory) {
@@ -80,6 +264,37 @@ import ReshipList from '@/components/Reship'
         button.classList.remove('bg-slate-400')
       }
     })
+    applyFilters()
+  }
+
+  function selectYear(year: string): void {
+    selectedYear = year
+    const allButtons = document.querySelectorAll<HTMLElement>('.year-btn')
+    allButtons.forEach((button) => {
+      if (button.dataset.year === selectedYear) {
+        button.classList.add('bg-blue-500', 'text-white')
+        button.classList.remove('bg-white/50', 'dark:bg-black/30', 'hover:bg-blue-100', 'dark:hover:bg-blue-900/30')
+      } else {
+        button.classList.remove('bg-blue-500', 'text-white')
+        button.classList.add('bg-white/50', 'dark:bg-black/30', 'hover:bg-blue-100', 'dark:hover:bg-blue-900/30')
+      }
+    })
+    applyFilters()
+  }
+
+  function toggleTag(tag: string): void {
+    selectedTag = selectedTag === tag ? null : tag
+    const allButtons = document.querySelectorAll<HTMLElement>('.tag-btn')
+    allButtons.forEach((button) => {
+      if (button.dataset.tag === selectedTag) {
+        button.classList.add('bg-purple-500', 'text-white')
+        button.classList.remove('bg-white/50', 'dark:bg-black/30', 'hover:bg-purple-100', 'dark:hover:bg-purple-900/30')
+      } else {
+        button.classList.remove('bg-purple-500', 'text-white')
+        button.classList.add('bg-white/50', 'dark:bg-black/30', 'hover:bg-purple-100', 'dark:hover:bg-purple-900/30')
+      }
+    })
+    applyFilters()
   }
 
   document.addEventListener('astro:page-load', () => {
@@ -91,6 +306,32 @@ import ReshipList from '@/components/Reship'
           // @ts-ignore
           selectCategory(event.target.dataset.category)
         }
+      })
+    }
+
+    const yearButtons = document.querySelectorAll<HTMLElement>('.year-btn')
+    yearButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.year) {
+          selectYear(btn.dataset.year)
+        }
+      })
+    })
+
+    const tagButtons = document.querySelectorAll<HTMLElement>('.tag-btn')
+    tagButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.tag) {
+          toggleTag(btn.dataset.tag)
+        }
+      })
+    })
+
+    const searchInput = document.getElementById('searchInput') as HTMLInputElement | null
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = (e.target as HTMLInputElement).value
+        applyFilters()
       })
     }
   })

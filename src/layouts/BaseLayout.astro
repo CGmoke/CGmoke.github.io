@@ -2,6 +2,7 @@
 import '@/style/app'
 import ProviderTheme from '@/components/ProviderTheme'
 import FixedText from '@/components/FixedText'
+import StarryBackground from '@/components/StarryBackground'
 import { ViewTransitions } from 'astro:transitions'
 ---
 
@@ -30,8 +31,9 @@ import { ViewTransitions } from 'astro:transitions'
   </head>
 
   <body
-    class="bg-snowfallWhite text-stone-950 dark:bg-[#232323] dark:text-snowfallWhite w-full h-full"
+    class="bg-snowfallWhite text-stone-950 dark:bg-[#0a0a0f] dark:text-snowfallWhite w-full h-full transition-colors duration-500"
   >
+    <StarryBackground />
     <slot />
     <FixedText />
   </body>
