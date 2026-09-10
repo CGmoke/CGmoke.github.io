@@ -1,7 +1,7 @@
 ---
 title: ROS2 入门指南：从安装到第一个节点
 layout: '@/layouts/Post'
-date: 2025-03-01
+date: 2026-09-08
 tags: [ROS2, 机器人, 教程]
 pin: true
 language: 中文

@@ -31,7 +31,9 @@
     "vue": "^3.4.15"
   },
   "devDependencies": {
+    "@types/node": "^20.11.30",
     "pagefind": "^1.0.4",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "typescript": "^5.5.0"
   }
 }

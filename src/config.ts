@@ -20,7 +20,7 @@ export interface RoadmapItem {
 export default {
   title: `沧歌的博客`,
   name: `沧歌`,
-  since: '2025',
+  since: '2026',
   signature: '行而不辍，未来可期',
   friend: '也许我们可以交个朋友 👇',
   roadmap: [
@@ -65,14 +65,14 @@ export default {
       title: '博客上线 & 主题搭建',
       description: '基于 Astro + Vue3 完成个人博客搭建，支持 RSS、全文搜索与暗色主题。',
       status: 'done',
-      date: '2025',
+      date: '2026',
       tags: ['Astro', 'Vue3'],
     },
     {
       title: 'ROS2 入门系列文章',
       description: '完成 ROS2 核心概念与通信机制系列的撰写与发布。',
       status: 'done',
-      date: '2025',
+      date: '2026',
       tags: ['ROS2'],
     },
   ] as RoadmapItem[],
