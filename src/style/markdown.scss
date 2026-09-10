@@ -118,8 +118,10 @@ body {
       word-break: normal;
       display: block;
       overflow-x: auto;
-      color: #333;
-      background-color: #2e2b2b;
+      // 与 Shiki dark-plus 主题保持一致（#d4d4d4 / #1e1e1e），
+      // 保证无语言标识的纯文本代码块在浅色模式下也清晰可读
+      color: #d4d4d4;
+      background-color: #1e1e1e;
     }
   }
 

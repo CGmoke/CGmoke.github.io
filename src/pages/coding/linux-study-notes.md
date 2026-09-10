@@ -12,7 +12,7 @@ label:
 description:
   - Linux学习笔记
 image:
-  - /ogImage.jpg
+  - /Linux-study-notes.jpg
 ---
 
 ##

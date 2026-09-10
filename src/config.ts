@@ -48,13 +48,6 @@ export default {
       tags: ['ROS2', 'MoveIt2'],
     },
     {
-      title: 'Rust 学习计划',
-      description: '系统学习 Rust 所有权与异步编程，尝试用 Rust 重写常用工具脚本。',
-      status: 'todo',
-      date: '2026 Q4',
-      tags: ['Rust'],
-    },
-    {
       title: 'Gazebo 仿真专题',
       description: '整理 Gazebo 仿真环境搭建与传感器仿真的实践经验。',
       status: 'todo',
