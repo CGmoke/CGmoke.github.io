@@ -3,12 +3,9 @@ import Home from '@/layouts/Home'
 import RecentList from '@/components/Recent'
 import Roadmap from '@/components/Roadmap'
 import ActivityCalendar from '@/components/vue/ActivityCalendar'
-import PageFind from '@/components/PageFind'
 import config, { type RoadmapItem } from '../config'
 import { getArticleData } from '@/server/getters/article'
 import { getGitHubContributions } from '@/server/getters/github'
-
-import github from '../images/github.svg'
 
 // Article collection
 const articleData = await getArticleData()
@@ -40,14 +37,6 @@ const blogPosts = await Astro.glob('../pages/blog/*.md')
 const reshipPosts = await Astro.glob('../pages/reship/*.md')
 const totalPosts = codingPosts.length + blogPosts.length + reshipPosts.length
 
-const contacts = [
-  {
-    icon: github,
-    url: 'https://github.com/CGmoke',
-    title: 'Github',
-  },
-]
-
 const roadmap = config.roadmap as RoadmapItem[]
 const roadmapCount = {
   doing: roadmap.filter((item) => item.status === 'doing').length,
@@ -64,32 +53,12 @@ const stats = [
 ---
 
 <Home>
-  <!-- 顶部工具栏：社交链接 + 搜索 -->
-  <div class="navigation bg-frostedGlass dark:bg-markerShadow mb-8" data-pagefind-ignore>
-    {
-      contacts.map((contact) => {
-        return (
-          <a
-            class="navigation-a dark:hover:bg-lightGray hover:bg-crystalClear"
-            target="_blank"
-            href={contact.url}
-            aria-label={contact.title}
-          >
-            <img
-              src={contact.icon.src}
-              width={contact.icon.width}
-              height={contact.icon.height}
-              alt={contact.title}
-              class="w-6"
-            />
-          </a>
-        )
-      })
-    }
-    <PageFind transition:persist />
+  <!-- 活动日历（置顶展示） -->
+  <div id="calendar" class="mb-10">
+    <ActivityCalendar client:only="vue" article={articleData} githubDays={githubDays} />
   </div>
 
-  <!-- 近期动态（统计 + 日历） -->
+  <!-- 近期动态（统计） -->
   <section id="trends" class="mb-10 scroll-mt-24" data-pagefind-ignore>
     <h2 class="section-title defaultColor">
       <span>📊</span> 近期动态
@@ -107,10 +76,6 @@ const stats = [
           </div>
         ))
       }
-    </div>
-
-    <div id="calendar">
-      <ActivityCalendar client:only="vue" article={articleData} githubDays={githubDays} />
     </div>
   </section>
 

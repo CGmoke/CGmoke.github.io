@@ -83,7 +83,7 @@ function convertToChineseTime(timeString: string) {
       <ol class="catalogue " data-pagefind-ignore>
         {headings.map((heading, index) => (
           <li>
-            <a class={`toc-link text-gray-500 hover:text-gray-900 text-sm mb-2 ${heading.depth > 2 ? 'ml-4' : ''}`} href={`#${heading.slug}`}>
+            <a class={`toc-link text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 text-sm mb-2 ${heading.depth > 2 ? 'ml-4' : ''}`} href={`#${heading.slug}`}>
               <i class={`toc-icon iconfont ${getIcon(heading.depth)}`} />
               <span class="truncated-title text">{heading.text}</span>
             </a>
@@ -187,5 +187,15 @@ function convertToChineseTime(timeString: string) {
 
   .anchor .header .read {
     font-size: 12px;
+  }
+
+  /* 暗色模式：提亮大纲文字，避免深色背景上不可见 */
+  :global(.dark) .truncated-title {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  :global(.dark) .anchor .header,
+  :global(.dark) .title {
+    color: rgba(255, 255, 255, 0.85);
   }
 </style>
