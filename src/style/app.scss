@@ -271,23 +271,6 @@ html.dark .footer-links .vertical {
   }
 }
 
-main {
-  margin-left: 0;
-}
-
-@media (min-width: 1024px) {
-  main {
-    margin-left: 20rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  main {
-    margin-left: 20rem;
-    margin-right: 16rem;
-  }
-}
-
 .desktop-only {
   display: none;
 }

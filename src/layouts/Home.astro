@@ -128,30 +128,24 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
         class="fixed inset-0 z-40 bg-black/40 hidden lg:hidden backdrop-blur-sm"
       ></div>
 
-      <main class="flex-1 min-w-0 w-full lg:ml-80">
-        <div class="container px-4 lg:px-12 pt-20 lg:pt-28 pb-16 lg:pb-28 max-w-6xl mx-auto relative">
-          <slot />
-        </div>
-      </main>
+      <div class="flex-1 min-w-0 w-full lg:ml-80 flex justify-center">
+        <main class="w-full max-w-6xl min-w-0">
+          <div class="px-4 lg:px-12 pt-20 lg:pt-28 pb-16 lg:pb-28 relative">
+            <slot />
+          </div>
+        </main>
 
-      <aside
-        class="hidden xl:block w-64 shrink-0 fixed top-0 right-0 h-screen z-20 pr-8 pt-28 overflow-y-auto desktop-only"
-      >
-        <div class="anchor catalogue w-full">
-          <slot name="catalogue" />
-        </div>
-      </aside>
+        <aside
+          class="hidden xl:block w-64 shrink-0 sticky top-0 h-screen z-20 pl-4 pr-2 pt-28 overflow-y-auto desktop-only"
+        >
+          <div class="anchor catalogue w-full">
+            <slot name="catalogue" />
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
 </BaseLayout>
-
-<style is:global>
-  @media (min-width: 1280px) {
-    main {
-      padding-right: 16rem !important;
-    }
-  }
-</style>
 
 <script>
   document.addEventListener('astro:page-load', () => {
