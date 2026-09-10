@@ -1,5 +1,10 @@
 export type RoadmapStatus = 'doing' | 'todo' | 'done'
 
+export interface PlatformLink {
+  name: string
+  url: string
+}
+
 export interface RoadmapItem {
   title: string
   description: string
@@ -97,4 +102,11 @@ export default {
     { label: 'GitHub', link: 'https://github.com/CGmoke' },
     { label: 'RSS 订阅', link: '/rss.xml' },
   ] as { label: string; link: string }[],
+  avatar: 'https://avatars.githubusercontent.com/u/202474769?v=4',
+  /** 首页日历顶部展板的个人主页链接 */
+  platforms: [
+    { name: 'GitHub', url: 'https://github.com/CGmoke' },
+    { name: 'LeetCode', url: 'https://leetcode.cn/u/cang-sheng-ta-ge-7o/' },
+    { name: 'CSDN', url: 'https://blog.csdn.net/J3059342114' },
+  ] as PlatformLink[],
 }

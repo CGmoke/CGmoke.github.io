@@ -2,15 +2,38 @@
 import Home from '@/layouts/Home'
 import RecentList from '@/components/Recent'
 import Roadmap from '@/components/Roadmap'
-import Calendar from '@/components/vue/Calendar'
+import ActivityCalendar from '@/components/vue/ActivityCalendar'
 import PageFind from '@/components/PageFind'
 import config, { type RoadmapItem } from '../config'
 import { getArticleData } from '@/server/getters/article'
+import { getGitHubContributions } from '@/server/getters/github'
 
 import github from '../images/github.svg'
 
 // Article collection
 const articleData = await getArticleData()
+
+// 构建时拉取 GitHub 贡献数据（自博客创建年起，逐年查询；未配置 Token 时优雅降级为空数据）
+const buildNow = new Date()
+const buildYear = buildNow.getFullYear()
+const githubStartYear = Number(config.since) || buildYear
+const githubDays: { date: string; count: number }[] = []
+for (let y = githubStartYear; y <= buildYear; y++) {
+  const from = new Date(Date.UTC(y, 0, 1)).toISOString()
+  const to = (y === buildYear ? buildNow : new Date(Date.UTC(y, 11, 31, 23, 59, 59))).toISOString()
+  try {
+    const calendar = await getGitHubContributions(from, to)
+    for (const week of calendar?.weeks ?? []) {
+      for (const day of week?.contributionDays ?? []) {
+        if (day?.contributionCount > 0) {
+          githubDays.push({ date: day.date, count: day.contributionCount })
+        }
+      }
+    }
+  } catch {
+    // 单年数据失败不阻断构建，日历将仅展示文章数据
+  }
+}
 
 const codingPosts = await Astro.glob('../pages/coding/*.md')
 const blogPosts = await Astro.glob('../pages/blog/*.md')
@@ -86,8 +109,8 @@ const stats = [
       }
     </div>
 
-    <div id="calendar" class="surface-card overflow-x-auto">
-      <Calendar client:only="vue" article={articleData} />
+    <div id="calendar">
+      <ActivityCalendar client:only="vue" article={articleData} githubDays={githubDays} />
     </div>
   </section>
 

@@ -80,7 +80,6 @@ h2 {
   padding-bottom: 10px;
   position: relative;
   width: 100%;
-  font-family: webfont-bolder !important;
 }
 
 .desktop-nav {
@@ -115,11 +114,6 @@ h2 {
   display: flex;
 }
 
-.calendar {
-  width: 630px !important;
-  padding: 0.8rem !important;
-}
-
 .nav-view {
   position: fixed;
   top: 0;
@@ -148,7 +142,6 @@ h2 {
   display: flex;
   align-items: center;
   margin-top: 5px;
-  margin-bottom: -10px;
   border-radius: 5px;
 }
 
@@ -177,9 +170,6 @@ h2 {
 }
 
 @media (min-width: 1600px) and (max-width: 3999px) {
-  .calendar {
-    width: 690px !important;
-  }
   .item-background {
     width: 690px !important;
   }
@@ -192,9 +182,6 @@ h2 {
 }
 
 @media (max-width: 1600px) {
-  .calendar {
-    width: 630px !important;
-  }
   .item-content {
     width: 630px !important;
   }
@@ -271,21 +258,7 @@ h2 {
   }
 }
 
+// 日历为 client:only 组件，水合前预留高度避免布局跳动
 #calendar {
-  display: none;
-}
-
-#skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
-}
-
-@keyframes skeleton-loading {
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0 50%;
-  }
+  min-height: 17rem;
 }

@@ -41,31 +41,34 @@ body {
   }
 
   h1 {
-    font-size: 22px;
-    margin-bottom: 5px;
+    font-size: 1.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
   }
   h2,
   h3,
   h4,
   h5,
   h6 {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 600;
   }
   h2 {
     padding-bottom: 12px;
     border-bottom: 1px solid #ececec;
   }
   h3 {
-    font-size: 18px;
+    font-size: 1.2rem;
     padding-bottom: 0;
   }
+  h4,
+  h5,
   h6 {
-    margin-top: 5px;
+    font-size: 1.05rem;
   }
 
   p {
-    font-size: 14.7px;
+    font-size: 16px;
     margin: 0 0 1.2em;
     text-indent: 2em;
     line-height: inherit;
@@ -94,10 +97,10 @@ body {
 
   code {
     word-break: break-word;
-    border-radius: 2px;
+    border-radius: 4px;
     overflow-x: auto;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #f85959;
+    background-color: rgba(0, 0, 0, 0.06);
+    color: #d63031;
     font-size: 0.89em;
     padding: 0.065em 0.4em;
   }
@@ -392,4 +395,59 @@ body {
     border-radius: 4px;
     font-size: 15px;
   }
+}
+
+// 深色模式下文章排版的可读性修正
+html.dark .markdown-body {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+html.dark .markdown-body h1,
+html.dark .markdown-body h2,
+html.dark .markdown-body h3,
+html.dark .markdown-body h4,
+html.dark .markdown-body h5,
+html.dark .markdown-body h6 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+html.dark .markdown-body h2 {
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+html.dark .markdown-body code {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ff8a8a;
+}
+
+html.dark .markdown-body blockquote {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+html.dark .markdown-body table {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+html.dark .markdown-body thead {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+html.dark .markdown-body tr:nth-child(2n) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+html.dark .markdown-body hr {
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+html.dark .markdown-body a {
+  color: #60a5fa;
+  border-bottom-color: rgba(96, 165, 250, 0.35);
+}
+
+html.dark .markdown-body ul:not(.code-lines) > li:hover,
+html.dark .markdown-body ol > li:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
 }

@@ -19,6 +19,9 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
               class="w-28 h-28 rounded-full border-4 border-white/20 dark:border-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105"
               src={avatar}
               alt="头像"
+              width="112"
+              height="112"
+              decoding="async"
             />
             <div class="absolute -bottom-1 -right-1">
               <ToggleTheme />
@@ -103,6 +106,7 @@ let avatar = 'https://avatars.githubusercontent.com/u/202474769?v=4'
                     <a
                       href={nav.url}
                       class:list={isActive ? 'active' : ''}
+                      aria-current={isActive ? 'page' : undefined}
                       rel={nav.url.startsWith('http') ? 'noopener' : undefined}
                     >
                       <span class="nav-icon">{nav.icon}</span>

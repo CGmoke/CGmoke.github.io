@@ -231,6 +231,24 @@ html.dark .footer-links .vertical {
   display: none !important;
 }
 
+// 文章列表的桌面 / 移动双布局切换：默认为桌面卡片，窄屏时切换到移动卡片
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}
+
 #sidebar-desktop {
   display: none;
 }

@@ -26,6 +26,8 @@ const { posts } = Astro.props
                         class="w-full h-full object-cover object-center"
                         src={post.frontmatter.image}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                       />
                     </picture>
                     <div class="title defaultColor dark:text-snowfallWhite">

@@ -44,7 +44,15 @@ function formatDate(dateString: string | number | Date) {
                 <span class={`item-oirigin  ${isRepost ? 'repost' : 'original'}`}>
                   {post.frontmatter.label}
                 </span>
-                <img src={post.frontmatter.image} class="image" alt="Article topic Picture" />
+                <img
+                  src={post.frontmatter.image}
+                  class="image"
+                  alt="Article topic Picture"
+                  loading="lazy"
+                  decoding="async"
+                  width="200"
+                  height="120"
+                />
               </a>
               <div class="item-body">
                 <div>
