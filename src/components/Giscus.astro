@@ -1,0 +1,59 @@
+---
+---
+
+<section id="giscus-comments" aria-label="评论区">
+  <h2 class="comment-title">评论区</h2>
+  <div class="giscus"></div>
+  <script
+    is:inline
+    src="https://giscus.app/client.js"
+    data-repo="CGmoke/CGmoke.github.io"
+    data-repo-id="R_kgDOUSY9Ag"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOUSY9As4DFcs4"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>
+
+<style>
+  #giscus-comments {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ececec;
+  }
+  html.dark #giscus-comments {
+    border-top-color: rgba(255, 255, 255, 0.15);
+  }
+  #giscus-comments .comment-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  // 让评论区主题跟随站内明暗切换（html.dark），与 giscus 保持一致
+  function applyGiscusTheme() {
+    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    const iframe = document.querySelector('iframe.giscus-frame')
+    if (iframe) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        'https://giscus.app'
+      )
+    }
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    applyGiscusTheme()
+    document.addEventListener('theme-change', applyGiscusTheme)
+  })
+</script>

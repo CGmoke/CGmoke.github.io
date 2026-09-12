@@ -2,6 +2,7 @@
 import Home from '../layouts/Home.astro'
 import ListRelatedPosts from '@/components/ListRelatedPosts'
 import TOC from '@/components/TOC'
+import Giscus from '@/components/Giscus'
 import BaseLayout from './BaseLayout.astro'
 import dayjs from 'dayjs'
 import config from '../config'
@@ -36,6 +37,7 @@ const relatedPosts = filteredPosts.slice(0, 4)
       </div>
       <slot />
     </div>
+    <Giscus />
     <div class="mt-8">
       <ListRelatedPosts posts={relatedPosts} />
     </div>
