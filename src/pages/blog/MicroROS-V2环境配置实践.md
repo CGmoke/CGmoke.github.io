@@ -12,7 +12,7 @@ label:
 description:
   - MicroROS-V2环境配置实践
 image:
-  - /MicroROS-V2环境配置实践.jpg
+  - /MicroROS-V2环境配置实践.png
 ---
 
 # 为什么我们把 MicroROS-V2 的开发环境从虚拟机搬到了原生 Ubuntu 22.04
