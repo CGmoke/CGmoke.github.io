@@ -1,3 +1,20 @@
+---
+title: MicroROS-V2环境配置实践
+layout: '@/layouts/Post'
+date: 2026-09-10
+tags: [MicroROS-V2]
+pin: false
+language: 中文
+categories:
+  - 博客
+label:
+  - 原创
+description:
+  - MicroROS-V2环境配置实践
+image:
+  - /MicroROS-V2环境配置实践.jpg
+---
+
 # 为什么我们把 MicroROS-V2 的开发环境从虚拟机搬到了原生 Ubuntu 22.04
 
 > 一次「选型 → 踩坑 → 落地」的完整记录。包含选型依据、10 个阶段的配置过程、以及 5 个能让人卡一整天的坑。

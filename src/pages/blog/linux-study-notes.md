@@ -21,7 +21,7 @@ image:
 
 > 本笔记以 **CentOS** 为主线（课程原版），并在各章节补充 Ubuntu 的差异知识，便于对比学习。
 
----
+***
 
 ## 目录
 
@@ -93,35 +93,35 @@ image:
   - [8.9 kubectl 常用命令](#89-kubectl-常用命令)
   - [8.10 后续学习路线](#810-后续学习路线)
 
----
+***
 
 ## CentOS 与 Ubuntu 差异速览
 
 > 本笔记课程基于 CentOS，下表汇总了与 Ubuntu 的关键差异，便于对照学习。各章节中也会标注 `<Ubuntu差异>` 小节。
 
-| 对比维度 | CentOS（课程主线） | Ubuntu |
-|----------|--------------------|--------|
-| **包族/系** | Red Hat 系（RHEL） | Debian 系 |
-| **包管理器** | `yum`（CentOS 8+ 为 `dnf`） | `apt` / `apt-get` |
-| **软件包格式** | `.rpm` | `.deb` |
-| **root 用户** | 默认启用，直接 `su -` 切换 | 默认禁用 root 登录，用 `sudo` 提权 |
-| **普通用户提权** | 需手动 `visudo` 配置 | 安装时自动加入 `sudo` 组 |
-| **创建用户** | `useradd`（不自动建 HOME/设密码） | `adduser`（交互式，自动配置） |
-| **网络配置** | `/etc/sysconfig/network-scripts/ifcfg-ens33` | `/etc/netplan/*.yaml`（Netplan） |
-| **网络服务名** | `network` | `systemd-networkd` 或 `NetworkManager` |
-| **防火墙** | `firewalld`（`firewall-cmd`） | `ufw`（Uncomplicated Firewall） |
-| **安全模块** | SELinux | AppArmor |
-| **默认 Shell** | Bash | Bash（默认）/ 也可选 dash |
-| **默认编辑器** | vi/vim | nano（默认）/ vim |
-| **软件源** | CentOS 官方源/EPEL | Ubuntu 官方源/PPA |
-| **服务管理** | `systemctl`（相同） | `systemctl`（相同） |
-| **目录结构** | FHS 标准（相同） | FHS 标准（相同） |
-| **时区设置** | `timedatectl`（CentOS 7+） | `timedatectl`（相同） |
-| **MySQL 安装** | `yum install mysql-community-server` | `apt install mysql-server` |
+| 对比维度         | CentOS（课程主线）                                 | Ubuntu                                |
+| ------------ | -------------------------------------------- | ------------------------------------- |
+| **包族/系**     | Red Hat 系（RHEL）                              | Debian 系                              |
+| **包管理器**     | `yum`（CentOS 8+ 为 `dnf`）                     | `apt` / `apt-get`                     |
+| **软件包格式**    | `.rpm`                                       | `.deb`                                |
+| **root 用户**  | 默认启用，直接 `su -` 切换                            | 默认禁用 root 登录，用 `sudo` 提权              |
+| **普通用户提权**   | 需手动 `visudo` 配置                              | 安装时自动加入 `sudo` 组                      |
+| **创建用户**     | `useradd`（不自动建 HOME/设密码）                     | `adduser`（交互式，自动配置）                   |
+| **网络配置**     | `/etc/sysconfig/network-scripts/ifcfg-ens33` | `/etc/netplan/*.yaml`（Netplan）        |
+| **网络服务名**    | `network`                                    | `systemd-networkd` 或 `NetworkManager` |
+| **防火墙**      | `firewalld`（`firewall-cmd`）                  | `ufw`（Uncomplicated Firewall）         |
+| **安全模块**     | SELinux                                      | AppArmor                              |
+| **默认 Shell** | Bash                                         | Bash（默认）/ 也可选 dash                    |
+| **默认编辑器**    | vi/vim                                       | nano（默认）/ vim                         |
+| **软件源**      | CentOS 官方源/EPEL                              | Ubuntu 官方源/PPA                        |
+| **服务管理**     | `systemctl`（相同）                              | `systemctl`（相同）                       |
+| **目录结构**     | FHS 标准（相同）                                   | FHS 标准（相同）                            |
+| **时区设置**     | `timedatectl`（CentOS 7+）                     | `timedatectl`（相同）                     |
+| **MySQL 安装** | `yum install mysql-community-server`         | `apt install mysql-server`            |
 
 > 💡 **记忆要点：** 两者都遵循 FHS 目录标准和 systemd 服务管理，底层命令（ls/cd/grep/ps 等）完全通用；差异主要集中在**包管理、用户体系、网络配置、防火墙**四个方面。
 
----
+***
 
 ## 第一章 Linux入门
 
@@ -130,6 +130,7 @@ image:
 计算机由**硬件**和**软件**两部分组成。操作系统是软件的一类，主要作用是协助用户调度硬件工作，充当用户和计算机硬件之间的桥梁。
 
 **常见操作系统：**
+
 - **PC端：** Windows、Linux、MacOS
 - **移动端：** Android、iOS、鸿蒙系统
 
@@ -148,16 +149,17 @@ image:
 Linux 由**内核、系统、软件**三部分组成，是一个完整的操作系统。Linux 的创始人是 Linus Torvalds。
 
 **Linux 的组成：**
+
 - **内核（Kernel）：** 系统核心，管理硬件资源
 - **系统级程序：** 文件系统、设备驱动等
 - **应用程序：** 各种工具软件、命令等
 
 Linux 有众多发行版，分为两大阵营：
 
-| 阵营 | 代表发行版 | 特点 |
-|------|-----------|------|
-| **Red Hat 系** | CentOS、RHEL、Fedora | 企业服务器主流，使用 RPM 包 + yum/dnf |
-| **Debian 系** | Ubuntu、Debian、Linux Mint | 桌面与云环境流行，使用 DEB 包 + apt |
+| 阵营            | 代表发行版                    | 特点                         |
+| ------------- | ------------------------ | -------------------------- |
+| **Red Hat 系** | CentOS、RHEL、Fedora       | 企业服务器主流，使用 RPM 包 + yum/dnf |
+| **Debian 系**  | Ubuntu、Debian、Linux Mint | 桌面与云环境流行，使用 DEB 包 + apt    |
 
 > 本课程主要使用 CentOS 学习。Ubuntu 是 Debian 系最流行的发行版，桌面体验好，云服务器（如 AWS/阿里云）也广泛提供 Ubuntu 镜像。
 
@@ -166,10 +168,12 @@ Linux 有众多发行版，分为两大阵营：
 通过虚拟机软件，可以在现有的计算机上模拟出一台或多台虚拟的计算机。这些虚拟机完全就像真正的计算机那样进行工作。
 
 **常用虚拟机软件：**
+
 - **VMware Workstation：** 功能强大，课程推荐使用
 - **VirtualBox：** 免费开源，轻量级
 
 **构建虚拟机环境的步骤：**
+
 1. 安装 VMware 虚拟机软件
 2. 下载 CentOS/Ubuntu 镜像文件（ISO）
 3. 在 VMware 中创建虚拟机并安装系统
@@ -184,12 +188,14 @@ Linux 操作形式分为两种：**图形化界面**（用鼠标操作）和**�
 > **为什么用命令行？** 在 Linux 下命令行使用率更高、更好用，服务器通常不安装图形界面以节省资源。可以借助第三方软件 FinalShell 进行命令行操作。
 
 **远程连接步骤：**
+
 1. 在 Linux 虚拟机中打开终端，输入 `ip addr` 查看 IP 地址
 2. 在 Windows 中安装 FinalShell
 3. 在 FinalShell 中新建连接，填入虚拟机的 IP 地址
 4. 输入用户名和密码进行连接
 
 > `<Ubuntu差异>` 远程连接工具（FinalShell/Xshell/Tabby）对 CentOS/Ubuntu 通用。但需注意：
+>
 > - CentOS 默认已安装并启动 SSH 服务（sshd），可直接连接。
 > - **Ubuntu Server 默认安装并启用 sshd**；但 **Ubuntu Desktop 默认未安装 SSH 服务**，需先执行 `sudo apt install openssh-server` 并 `sudo systemctl start ssh` 启动后才能远程连接。
 > - 登录用户名：CentOS 默认 root；Ubuntu 默认安装时创建的普通用户（如 ubuntu），root 不能直接登录。
@@ -200,7 +206,7 @@ Linux 操作形式分为两种：**图形化界面**（用鼠标操作）和**�
 
 > **使用建议：** 在进行重大操作（如安装软件、修改配置）前，建议先拍摄快照，以便随时回退。VMware 快照功能对 CentOS/Ubuntu 均适用，操作完全相同。
 
----
+***
 
 ## 第二章 Linux基础命令
 
@@ -227,7 +233,8 @@ Linux 的目录结构是一个**树形结构**，没有盘符的概念。顶级�
 ```
 
 > `<Ubuntu差异>` CentOS 和 Ubuntu 都遵循 FHS（文件系统层次标准），目录结构基本一致。细微差异：
-> - CentOS 的 `bin`、`sbin`、`lib` 是独立目录；**Ubuntu 较新版本（20.04+）已将 `bin`、`sbin`、`lib` 合并为 `/usr` 下的符号链接**（`/bin → usr/bin`），但使用上无差别。
+>
+> - CentOS 的 `bin`、`sbin`、`lib` 是独立目录；**Ubuntu 较新版本（20.04+）已将** **`bin`、`sbin`、`lib`** **合并为** **`/usr`** **下的符号链接**（`/bin → usr/bin`），但使用上无差别。
 > - 网络配置文件位置不同（见 4.7 节）。
 > - 软件日志位置都在 `/var/log`，但具体日志文件名略有差异。
 
@@ -245,6 +252,7 @@ ls -l /home/itheima
 ```
 
 **命令格式说明：**
+
 - **command：** 命令本身，如 ls、cd
 - **-options：** 选项，控制命令行为，可选
 - **parameter：** 参数，命令作用的对象，可选
@@ -261,10 +269,10 @@ ls [-a -l -h] [Linux路径]
 
 > 不带参数和选项时，以平铺形式列出当前工作目录的内容。
 
-| 选项 | 说明 | 示例 |
-|------|------|------|
-| `-a` | 显示隐藏内容（以 . 开头的文件/目录） | `ls -a` |
-| `-l` | 以列表（竖向排列）展示，显示更多信息 | `ls -l` |
+| 选项   | 说明                     | 示例       |
+| ---- | ---------------------- | -------- |
+| `-a` | 显示隐藏内容（以 . 开头的文件/目录）   | `ls -a`  |
+| `-l` | 以列表（竖向排列）展示，显示更多信息     | `ls -l`  |
 | `-h` | 以易于阅读的形式显示文件大小（需配合 -l） | `ls -lh` |
 
 ```bash
@@ -281,15 +289,19 @@ ls -alh /
 ### 2.4 cd与pwd命令
 
 **cd - 切换工作目录**
+
 ```
 cd [Linux路径]
 ```
+
 不加参数时回到当前用户的 HOME 目录。
 
 **pwd - 查看当前工作目录**
+
 ```
 pwd
 ```
+
 无参数无选项，输出当前所在的绝对路径。
 
 ```bash
@@ -303,11 +315,11 @@ cd ~                # ~ 也表示HOME目录
 
 在路径中可以使用特殊符号来简化路径书写：
 
-| 符号 | 含义 | 示例 |
-|------|------|------|
-| `.` | 当前目录 | `cd ./Desktop` |
-| `..` | 上一级目录 | `cd ..` |
-| `~` | HOME 目录 | `cd ~/Desktop` |
+| 符号   | 含义      | 示例             |
+| ---- | ------- | -------------- |
+| `.`  | 当前目录    | `cd ./Desktop` |
+| `..` | 上一级目录   | `cd ..`        |
+| `~`  | HOME 目录 | `cd ~/Desktop` |
 
 ### 2.6 mkdir命令
 
@@ -316,6 +328,7 @@ cd ~                # ~ 也表示HOME目录
 ```
 mkdir [-p] Linux路径
 ```
+
 参数必填；`-p` 表示自动创建不存在的父目录（递归创建）。
 
 ```bash
@@ -331,20 +344,20 @@ mkdir -p a/b/c/d
 
 #### touch、cat、more
 
-| 命令 | 作用 | 语法 |
-|------|------|------|
-| `touch` | 创建文件 | `touch Linux路径` |
-| `cat` | 查看文件内容（全部输出） | `cat Linux路径` |
-| `more` | 查看文件内容（支持翻页） | `more Linux路径` |
+| 命令      | 作用           | 语法              |
+| ------- | ------------ | --------------- |
+| `touch` | 创建文件         | `touch Linux路径` |
+| `cat`   | 查看文件内容（全部输出） | `cat Linux路径`   |
+| `more`  | 查看文件内容（支持翻页） | `more Linux路径`  |
 
 > **more 操作方式：** 空格键翻页，q 键退出查看。
 
 #### cp、mv、rm
 
-| 命令 | 作用 | 语法 | 关键选项 |
-|------|------|------|----------|
-| `cp` | 复制文件/文件夹 | `cp [-r] 参数1 参数2` | `-r` 递归复制文件夹 |
-| `mv` | 移动文件/文件夹 | `mv 参数1 参数2` | 无选项 |
+| 命令   | 作用       | 语法                           | 关键选项                |
+| ---- | -------- | ---------------------------- | ------------------- |
+| `cp` | 复制文件/文件夹 | `cp [-r] 参数1 参数2`            | `-r` 递归复制文件夹        |
+| `mv` | 移动文件/文件夹 | `mv 参数1 参数2`                 | 无选项                 |
 | `rm` | 删除文件/文件夹 | `rm [-r -f] 参数1 参数2 ... 参数N` | `-r` 删文件夹，`-f` 强制删除 |
 
 ```bash
@@ -383,6 +396,7 @@ rm *test*     # 删除包含 test 的文件
 ```
 grep [-n] 关键字 文件路径
 ```
+
 `-n` 表示在结果中显示行号。从文件中通过关键字过滤文件行。
 
 #### wc - 统计
@@ -390,14 +404,15 @@ grep [-n] 关键字 文件路径
 ```
 wc [-c -m -l -w] 文件路径
 ```
+
 统计文件的行数、单词数量等。
 
-| 选项 | 说明 |
-|------|------|
+| 选项   | 说明          |
+| ---- | ----------- |
 | `-c` | 统计 bytes 数量 |
-| `-m` | 统计字符数量 |
-| `-l` | 统计行数 |
-| `-w` | 统计单词数量 |
+| `-m` | 统计字符数量      |
+| `-l` | 统计行数        |
+| `-w` | 统计单词数量      |
 
 #### 管道符 |
 
@@ -469,6 +484,7 @@ find / -size -1k
 ```
 echo 输出的内容
 ```
+
 类似编程语言中的 print 功能。
 
 ```bash
@@ -482,16 +498,17 @@ echo `pwd`
 
 #### 重定向符
 
-| 符号 | 含义 | 示例 |
-|------|------|------|
-| `>` | 覆盖写入（将左侧结果写入右侧文件，覆盖原有内容） | `echo "hi" > test.txt` |
-| `>>` | 追加写入（在文件末尾追加内容） | `echo "hi" >> test.txt` |
+| 符号   | 含义                       | 示例                      |
+| ---- | ------------------------ | ----------------------- |
+| `>`  | 覆盖写入（将左侧结果写入右侧文件，覆盖原有内容） | `echo "hi" > test.txt`  |
+| `>>` | 追加写入（在文件末尾追加内容）          | `echo "hi" >> test.txt` |
 
 #### tail - 查看文件尾部
 
 ```
 tail [-f -num] Linux路径
 ```
+
 `-f` 持续跟踪文件变化；`-num` 查看末尾 num 行（默认10行）。
 
 ```bash
@@ -513,11 +530,11 @@ vi 是 Linux 中最经典的文本编辑器，所有的 Linux 系统都会内置
 
 #### vi的三种工作模式
 
-| 模式 | 说明 | 进入方式 |
-|------|------|----------|
-| **命令模式** | 默认模式，键盘输入被解释为命令 | 打开文件即进入；按 Esc 从其他模式返回 |
-| **输入模式** | 可以编辑文本内容 | 命令模式下按 i / a / o 等键 |
-| **底线命令模式** | 保存、退出等操作 | 命令模式下输入 `:` 进入 |
+| 模式         | 说明              | 进入方式                  |
+| ---------- | --------------- | --------------------- |
+| **命令模式**   | 默认模式，键盘输入被解释为命令 | 打开文件即进入；按 Esc 从其他模式返回 |
+| **输入模式**   | 可以编辑文本内容        | 命令模式下按 i / a / o 等键   |
+| **底线命令模式** | 保存、退出等操作        | 命令模式下输入 `:` 进入        |
 
 **模式切换流程：**
 
@@ -533,30 +550,30 @@ vi 是 Linux 中最经典的文本编辑器，所有的 Linux 系统都会内置
 
 #### 命令模式常用快捷键
 
-| 按键 | 功能 |
-|------|------|
-| `i` | 在当前光标位置前插入 |
-| `a` | 在当前光标位置后插入 |
-| `o` | 在当前行下方新建一行插入 |
-| `dd` | 删除当前行 |
+| 按键    | 功能                 |
+| ----- | ------------------ |
+| `i`   | 在当前光标位置前插入         |
+| `a`   | 在当前光标位置后插入         |
+| `o`   | 在当前行下方新建一行插入       |
+| `dd`  | 删除当前行              |
 | `ndd` | 删除当前行起的 n 行（如 3dd） |
-| `yy` | 复制当前行 |
-| `nyy` | 复制当前行起的 n 行 |
-| `p` | 粘贴 |
-| `u` | 撤销 |
-| `gg` | 跳到文件首行 |
-| `G` | 跳到文件末行 |
+| `yy`  | 复制当前行              |
+| `nyy` | 复制当前行起的 n 行        |
+| `p`   | 粘贴                 |
+| `u`   | 撤销                 |
+| `gg`  | 跳到文件首行             |
+| `G`   | 跳到文件末行             |
 
 #### 底线命令模式常用命令
 
-| 命令 | 功能 |
-|------|------|
-| `:w` | 保存 |
-| `:q` | 退出 |
-| `:wq` | 保存并退出 |
-| `:q!` | 强制退出不保存 |
-| `:set nu` | 显示行号 |
-| `/关键字` | 搜索关键字（n 查找下一个） |
+| 命令        | 功能             |
+| --------- | -------------- |
+| `:w`      | 保存             |
+| `:q`      | 退出             |
+| `:wq`     | 保存并退出          |
+| `:q!`     | 强制退出不保存        |
+| `:set nu` | 显示行号           |
+| `/关键字`    | 搜索关键字（n 查找下一个） |
 
 ```bash
 # 用 vi 打开/创建文件
@@ -569,11 +586,12 @@ vi hello.txt
 ```
 
 > `<Ubuntu差异>` vi/vim 操作完全通用。但需注意：
+>
 > - **CentOS 默认安装 vim-enhanced**，`vi` 实际指向 vim，支持语法高亮。
 > - **Ubuntu 最小安装可能只有 vi-tiny**，方向键可能异常。建议执行 `sudo apt install vim` 安装完整版。
 > - Ubuntu 默认推荐 **nano** 编辑器（底部有快捷键提示，Ctrl+O 保存、Ctrl+X 退出），对新手更友好。
 
----
+***
 
 ## 第三章 Linux权限管控
 
@@ -586,6 +604,7 @@ root 用户拥有最大的系统操作权限，普通用户权限受限。普通
 ```
 su [-] [用户名]
 ```
+
 `-` 表示切换用户后同时切换到该用户的 HOME 目录。
 
 ```bash
@@ -610,6 +629,7 @@ sudo mkdir /mydir
 ```
 
 > `<Ubuntu差异>` **这是 CentOS 与 Ubuntu 最大的差异之一：**
+>
 > - **CentOS：** 默认启用 root 账户，设了 root 密码后可直接 `su -` 切换。普通用户需手动 `visudo` 配置才能用 sudo。
 > - **Ubuntu：** **默认禁用 root 登录**（root 无密码，无法直接登录或 `su -`）。安装时创建的普通用户**自动加入 sudo 组**，可直接用 `sudo` 提权（需输入当前用户密码）。
 > - Ubuntu 若需启用 root 登录：`sudo passwd root` 设置 root 密码，之后即可 `su -`。
@@ -628,18 +648,18 @@ Linux 系统中可以通过用户组来管理用户。每个用户可以属于�
 
 #### 用户组管理
 
-| 命令 | 作用 | 语法 |
-|------|------|------|
+| 命令         | 作用    | 语法            |
+| ---------- | ----- | ------------- |
 | `groupadd` | 创建用户组 | `groupadd 组名` |
 | `groupdel` | 删除用户组 | `groupdel 组名` |
 
 #### 用户管理
 
-| 命令 | 作用 | 语法 |
-|------|------|------|
-| `useradd` | 创建用户 | `useradd [-g 组名] 用户名` |
-| `userdel` | 删除用户 | `userdel [-r] 用户名` |
-| `usermod` | 修改用户所属组 | `usermod -aG 组名 用户名` |
+| 命令        | 作用      | 语法                    |
+| --------- | ------- | --------------------- |
+| `useradd` | 创建用户    | `useradd [-g 组名] 用户名` |
+| `userdel` | 删除用户    | `userdel [-r] 用户名`    |
+| `usermod` | 修改用户所属组 | `usermod -aG 组名 用户名`  |
 
 ```bash
 # 创建用户组
@@ -663,9 +683,9 @@ getent group
 ```
 
 > `<Ubuntu差异>` **创建用户的推荐命令不同：**
+>
 > - **CentOS：** 使用 `useradd`，它不会自动创建 HOME 目录、不设密码、不交互，需手动 `passwd 用户名` 设密码、`mkdir /home/用户名`。
 > - **Ubuntu：** 推荐 `adduser`（交互式），会自动创建 HOME 目录、复制配置文件、提示设置密码、询问全名等，更友好：
->   
 >   ```bash
 >   sudo adduser user1    # Ubuntu 推荐，交互式创建
 >   sudo useradd user1    # Ubuntu 也可用，但需手动配置（同 CentOS）
@@ -704,12 +724,12 @@ drwxr-xr-x. 2 itheima itheima 4096 Nov 15 10:00 test
   └─────────────────── 类型：d=文件夹
 ```
 
-| 权限字符 | 对文件 | 对文件夹 |
-|----------|--------|----------|
-| `r` (read) | 可以查看文件内容 | 可以列出文件夹内容（ls） |
-| `w` (write) | 可以修改文件内容 | 可以在文件夹内创建/删除文件 |
-| `x` (execute) | 可以将文件作为程序执行 | 可以进入文件夹（cd） |
-| `-` | 无对应权限 | 无对应权限 |
+| 权限字符          | 对文件         | 对文件夹           |
+| ------------- | ----------- | -------------- |
+| `r` (read)    | 可以查看文件内容    | 可以列出文件夹内容（ls）  |
+| `w` (write)   | 可以修改文件内容    | 可以在文件夹内创建/删除文件 |
+| `x` (execute) | 可以将文件作为程序执行 | 可以进入文件夹（cd）    |
+| `-`           | 无对应权限       | 无对应权限          |
 
 > `<Ubuntu差异>` 权限模型完全一致，`ls -l` 输出格式相同。细微差异：CentOS 的 `ls -l` 输出权限后可能有 `.`（表示启用了 SELinux 安全标签）或 `+`（表示有 ACL）；Ubuntu 默认使用 AppArmor，`ls -l` 一般无 `.` 后缀。
 
@@ -720,6 +740,7 @@ drwxr-xr-x. 2 itheima itheima 4096 Nov 15 10:00 test
 ```
 chmod [-R] 权限 文件/文件夹路径
 ```
+
 `-R` 对文件夹内所有内容应用相同权限。
 
 #### 符号方式
@@ -738,13 +759,14 @@ chmod -R u=rwx,g=rx,o=rx folder # 递归修改文件夹
 
 权限可以用数字表示，三者权限之和即为该组的权限数字：
 
-| 权限 | 数字 | 说明 |
-|------|------|------|
-| `r` | 4 | 读 |
-| `w` | 2 | 写 |
-| `x` | 1 | 执行 |
+| 权限  | 数字 | 说明 |
+| --- | -- | -- |
+| `r` | 4  | 读  |
+| `w` | 2  | 写  |
+| `x` | 1  | 执行 |
 
 **权限数字速查表：**
+
 - `0` = ---（无权限）
 - `1` = --x（仅执行）
 - `2` = -w-（仅写）
@@ -775,6 +797,7 @@ chmod 777 test.txt
 ```
 chown [-R] [用户][:][用户组] 文件路径
 ```
+
 `-R` 递归修改文件夹内所有内容。
 
 ```bash
@@ -795,34 +818,35 @@ chown -R user1:group1 folder
 
 > `<Ubuntu差异>` chown 用法完全通用。Ubuntu 中因 root 默认禁用，普通用户执行 chown 必须加 `sudo`。
 
----
+***
 
 ## 第四章 Linux实用操作
 
 ### 4.1 各类小技巧快捷键
 
-| 快捷键/命令 | 功能 |
-|-------------|------|
-| `ctrl + c` | 强制停止当前运行的程序/命令 |
-| `ctrl + d` | 退出当前用户登录 / 退出特定程序 |
-| `history` | 显示历史输入过的命令 |
-| `!命令前缀` | 自动执行上一次匹配的命令（如 `!ls`） |
-| `ctrl + r` | 搜索历史命令（输入关键词匹配） |
-| `ctrl + l` 或 `clear` | 清屏 |
-| `Tab` | 自动补全文件名/命令名 |
-| `↑ / ↓` | 浏览上一条/下一条历史命令 |
+| 快捷键/命令               | 功能                    |
+| -------------------- | --------------------- |
+| `ctrl + c`           | 强制停止当前运行的程序/命令        |
+| `ctrl + d`           | 退出当前用户登录 / 退出特定程序     |
+| `history`            | 显示历史输入过的命令            |
+| `!命令前缀`              | 自动执行上一次匹配的命令（如 `!ls`） |
+| `ctrl + r`           | 搜索历史命令（输入关键词匹配）       |
+| `ctrl + l` 或 `clear` | 清屏                    |
+| `Tab`                | 自动补全文件名/命令名           |
+| `↑ / ↓`              | 浏览上一条/下一条历史命令         |
 
 > `<Ubuntu差异>` 快捷键完全通用，无差异。
 
 ### 4.2 软件安装
 
-Linux 系统提供了包管理器来安装软件。**CentOS 使用 `yum`，Ubuntu 使用 `apt`**，这是两者最核心的差异之一。
+Linux 系统提供了包管理器来安装软件。**CentOS 使用** **`yum`，Ubuntu 使用** **`apt`**，这是两者最核心的差异之一。
 
 #### CentOS：yum 包管理器
 
 ```
 yum [-y] [install | remove | search] 软件名称
 ```
+
 `-y` 表示自动确认，无需手动输入 yes。
 
 ```bash
@@ -870,19 +894,19 @@ sudo apt -y upgrade
 
 > `<Ubuntu差异>` **包管理器差异对照表：**
 
-| 操作 | CentOS (yum/dnf) | Ubuntu (apt) |
-|------|------------------|--------------|
-| 更新软件源 | `yum makecache` | `apt update` |
-| 安装软件 | `yum install 包名` | `apt install 包名` |
-| 卸载软件 | `yum remove 包名` | `apt remove 包名` |
-| 卸载+清配置 | `yum remove 包名` | `apt purge 包名` |
-| 搜索软件 | `yum search 关键词` | `apt search 关键词` |
-| 升级所有软件 | `yum update` | `apt upgrade` |
-| 查看包信息 | `yum info 包名` | `apt show 包名` |
-| 列出已安装 | `yum list installed` | `dpkg -l` 或 `apt list --installed` |
-| 自动确认 | `-y` | `-y` |
-| 包格式 | `.rpm` | `.deb` |
-| 本地包安装 | `rpm -ivh 包.rpm` | `dpkg -i 包.deb` |
+| 操作     | CentOS (yum/dnf)     | Ubuntu (apt)                       |
+| ------ | -------------------- | ---------------------------------- |
+| 更新软件源  | `yum makecache`      | `apt update`                       |
+| 安装软件   | `yum install 包名`     | `apt install 包名`                   |
+| 卸载软件   | `yum remove 包名`      | `apt remove 包名`                    |
+| 卸载+清配置 | `yum remove 包名`      | `apt purge 包名`                     |
+| 搜索软件   | `yum search 关键词`     | `apt search 关键词`                   |
+| 升级所有软件 | `yum update`         | `apt upgrade`                      |
+| 查看包信息  | `yum info 包名`        | `apt show 包名`                      |
+| 列出已安装  | `yum list installed` | `dpkg -l` 或 `apt list --installed` |
+| 自动确认   | `-y`                 | `-y`                               |
+| 包格式    | `.rpm`               | `.deb`                             |
+| 本地包安装  | `rpm -ivh 包.rpm`     | `dpkg -i 包.deb`                    |
 
 > 💡 **apt vs apt-get：** `apt` 是 apt-get 的简化版，输出更友好，适合交互式使用；`apt-get` 更适合脚本。两者功能类似。
 
@@ -890,14 +914,14 @@ sudo apt -y upgrade
 
 Linux 中很多软件安装后支持通过 `systemctl` 命令控制启动、停止、开机自启等。**systemctl 在 CentOS 和 Ubuntu 上完全通用**（都基于 systemd）。
 
-| 命令 | 功能 |
-|------|------|
-| `systemctl start 服务名` | 启动服务 |
-| `systemctl stop 服务名` | 停止服务 |
-| `systemctl status 服务名` | 查看服务状态 |
-| `systemctl enable 服务名` | 设置开机自启 |
+| 命令                      | 功能     |
+| ----------------------- | ------ |
+| `systemctl start 服务名`   | 启动服务   |
+| `systemctl stop 服务名`    | 停止服务   |
+| `systemctl status 服务名`  | 查看服务状态 |
+| `systemctl enable 服务名`  | 设置开机自启 |
 | `systemctl disable 服务名` | 关闭开机自启 |
-| `systemctl restart 服务名` | 重启服务 |
+| `systemctl restart 服务名` | 重启服务   |
 
 ```bash
 # 启动防火墙
@@ -912,14 +936,14 @@ systemctl enable firewalld
 
 > `<Ubuntu差异>` systemctl 命令本身通用，但**服务名可能不同**：
 
-| 功能 | CentOS 服务名 | Ubuntu 服务名 |
-|------|--------------|---------------|
-| 网络服务 | `network` | `systemd-networkd` 或 `NetworkManager` |
-| 防火墙 | `firewalld` | `ufw`（实际是 iptables 前端） |
-| SSH 服务 | `sshd` | `ssh` |
-| MySQL | `mysqld` | `mysql` |
-| Nginx | `nginx` | `nginx` |
-| Apache | `httpd` | `apache2` |
+| 功能     | CentOS 服务名  | Ubuntu 服务名                            |
+| ------ | ----------- | ------------------------------------- |
+| 网络服务   | `network`   | `systemd-networkd` 或 `NetworkManager` |
+| 防火墙    | `firewalld` | `ufw`（实际是 iptables 前端）                |
+| SSH 服务 | `sshd`      | `ssh`                                 |
+| MySQL  | `mysqld`    | `mysql`                               |
+| Nginx  | `nginx`     | `nginx`                               |
+| Apache | `httpd`     | `apache2`                             |
 
 ```bash
 # CentOS 重启网络
@@ -995,6 +1019,7 @@ sudo ntpdate -u ntp.aliyun.com
 ```
 
 > `<Ubuntu差异>` `date`/`timedatectl` 命令通用。差异：
+>
 > - CentOS 默认时区可能是 UTC；Ubuntu 安装时可选择时区。
 > - 推荐两者都用 `timedatectl set-timezone Asia/Shanghai`，无需手动删软连接。
 > - Ubuntu 还可用 `chrony`（`sudo apt install chrony`）替代 ntpdate 做持续同步。
@@ -1029,6 +1054,7 @@ vi /etc/hosts
 ```
 
 > `<Ubuntu差异>` `ip addr`/`hostnamectl`/`/etc/hosts` 完全通用。差异：
+>
 > - Ubuntu 网卡名通常为 `ens33` 或 `eth0`，CentOS 也常见 `ens33`，命名规则一致（predictable network interface names）。
 > - `ifconfig` 在两者上都需额外安装 net-tools 包：CentOS 用 `yum install net-tools`，Ubuntu 用 `sudo apt install net-tools`。
 
@@ -1092,13 +1118,13 @@ sudo netplan try
 
 > `<Ubuntu差异>` **固定 IP 配置对比：**
 
-| 对比项 | CentOS | Ubuntu |
-|--------|--------|--------|
-| 配置工具 | network 服务 | Netplan（生成后端配置） |
-| 配置文件 | `/etc/sysconfig/network-scripts/ifcfg-ens33` | `/etc/netplan/*.yaml` |
-| 文件格式 | shell 变量键值对 | YAML（缩进敏感） |
-| 生效命令 | `systemctl restart network` | `sudo netplan apply` |
-| 后端渲染 | 直接由 network 读取 | 渲染为 systemd-networkd / NetworkManager 配置 |
+| 对比项  | CentOS                                       | Ubuntu                                   |
+| ---- | -------------------------------------------- | ---------------------------------------- |
+| 配置工具 | network 服务                                   | Netplan（生成后端配置）                          |
+| 配置文件 | `/etc/sysconfig/network-scripts/ifcfg-ens33` | `/etc/netplan/*.yaml`                    |
+| 文件格式 | shell 变量键值对                                  | YAML（缩进敏感）                               |
+| 生效命令 | `systemctl restart network`                  | `sudo netplan apply`                     |
+| 后端渲染 | 直接由 network 读取                               | 渲染为 systemd-networkd / NetworkManager 配置 |
 
 > ⚠️ **Netplan 注意事项：** YAML 严格区分缩进，必须用空格不能 Tab；冒号后必须有空格；修改前建议 `sudo cp` 备份原文件；配置错误可能导致网络断开。
 
@@ -1106,11 +1132,11 @@ sudo netplan try
 
 #### 网络请求和下载
 
-| 命令 | 作用 | 语法 |
-|------|------|------|
-| `ping` | 测试网络连通性 | `ping [-c num] IP/域名` |
-| `wget` | 下载文件（非交互式） | `wget [-b] URL` |
-| `curl` | 发起 HTTP 请求 | `curl [-O] URL` |
+| 命令     | 作用         | 语法                    |
+| ------ | ---------- | --------------------- |
+| `ping` | 测试网络连通性    | `ping [-c num] IP/域名` |
+| `wget` | 下载文件（非交互式） | `wget [-b] URL`       |
+| `curl` | 发起 HTTP 请求 | `curl [-O] URL`       |
 
 ```bash
 # ping 测试网络连通性
@@ -1149,6 +1175,7 @@ ss -tulnp | grep 80
 ```
 
 **常见端口：**
+
 - **22：** SSH（远程连接）
 - **80：** HTTP（Web服务）
 - **443：** HTTPS（加密Web服务）
@@ -1203,14 +1230,14 @@ sudo ufw delete allow 3306     # 删除规则
 
 > `<Ubuntu差异>` **防火墙对比：**
 
-| 对比项 | CentOS (firewalld) | Ubuntu (ufw) |
-|--------|--------------------|--------------|
-| 命令 | `firewall-cmd` | `ufw` |
-| 开放端口 | `firewall-cmd --permanent --add-port=80/tcp` + `--reload` | `sudo ufw allow 80` |
-| 查看规则 | `firewall-cmd --list-all` | `sudo ufw status` |
-| 底层 | iptables/nftables | iptables |
-| 语法 | 较复杂 | 简洁 |
-| 默认状态 | 默认启用 | 默认未启用（需手动 `ufw enable`） |
+| 对比项  | CentOS (firewalld)                                        | Ubuntu (ufw)            |
+| ---- | --------------------------------------------------------- | ----------------------- |
+| 命令   | `firewall-cmd`                                            | `ufw`                   |
+| 开放端口 | `firewall-cmd --permanent --add-port=80/tcp` + `--reload` | `sudo ufw allow 80`     |
+| 查看规则 | `firewall-cmd --list-all`                                 | `sudo ufw status`       |
+| 底层   | iptables/nftables                                         | iptables                |
+| 语法   | 较复杂                                                       | 简洁                      |
+| 默认状态 | 默认启用                                                      | 默认未启用（需手动 `ufw enable`） |
 
 ### 4.9 进程管理
 
@@ -1237,6 +1264,7 @@ kill -9 1234
 ```
 
 > **ps -ef 输出说明：**
+>
 > - **UID：** 进程所属用户
 > - **PID：** 进程ID（用于 kill）
 > - **PPID：** 父进程ID
@@ -1259,6 +1287,7 @@ top   # 按 q 退出
 ```
 
 **top 命令关键信息：**
+
 - **load average：** 系统负载（1/5/15分钟），值越低越好
 - **CPU(s)：** CPU 使用率（us 用户，sy 系统，id 空闲）
 - **Mem：** 内存使用情况（total 总量，free 空闲，used 已用）
@@ -1302,7 +1331,7 @@ env   # 查看所有环境变量
 echo $PATH
 ```
 
-#### $PATH 环境变量
+#### \$PATH 环境变量
 
 PATH 记录了系统命令的搜索路径。当执行命令时，系统会从 PATH 记录的路径中搜索该命令的程序文件。
 
@@ -1324,6 +1353,7 @@ vi /etc/profile
 ```
 
 > `<Ubuntu差异>` 环境变量机制完全通用。差异在于默认加载的配置文件：
+>
 > - **CentOS** 默认 Shell 为 Bash，加载 `~/.bashrc` → `/etc/bashrc`。
 > - **Ubuntu** 默认 Shell 也是 Bash，但加载顺序为 `~/.bashrc` → `/etc/bash.bashrc`；若用 **zsh**（如安装了 oh-my-zsh）则加载 `~/.zshrc`。
 > - Ubuntu 推荐用户级环境变量写入 `~/.profile`（登录时加载）或 `~/.bashrc`（交互式 shell 加载）。
@@ -1356,14 +1386,14 @@ sz test.txt
 
 Linux 中最常用的压缩/解压工具，常用于 `.tar` 和 `.tar.gz` 格式。
 
-| 选项 | 说明 |
-|------|------|
-| `-c` | 创建压缩文件（create） |
-| `-x` | 解压文件（extract） |
-| `-v` | 显示过程（verbose） |
-| `-f` | 指定文件名（必须放最后） |
+| 选项   | 说明                  |
+| ---- | ------------------- |
+| `-c` | 创建压缩文件（create）      |
+| `-x` | 解压文件（extract）       |
+| `-v` | 显示过程（verbose）       |
+| `-f` | 指定文件名（必须放最后）        |
 | `-z` | 使用 gzip 压缩（.tar.gz） |
-| `-C` | 解压到指定目录 |
+| `-C` | 解压到指定目录             |
 
 ```bash
 # 压缩为 .tar.gz 格式
@@ -1399,13 +1429,14 @@ unzip test.zip -d /home/itheima/
 ```
 
 > **压缩格式对比：**
+>
 > - **.tar.gz：** Linux 最常用，压缩率高
 > - **.tar：** 仅打包不压缩
 > - **.zip：** 跨平台兼容性好，Windows 也支持
 
 > `<Ubuntu差异>` tar/zip/unzip 命令完全通用，仅安装命令不同。
 
----
+***
 
 ## 第五章 实战部署
 
@@ -1490,21 +1521,21 @@ sudo ufw allow 3306/tcp
 
 > `<Ubuntu差异>` **MySQL 部署对比：**
 
-| 对比项 | CentOS | Ubuntu |
-|--------|--------|--------|
-| 安装命令 | `yum install mysql-community-server` | `sudo apt install mysql-server` |
-| 是否需加源 | 需先 rpm 安装官方 yum 源 | 默认源已包含，无需加源 |
-| 服务名 | `mysqld` | `mysql` |
-| 初始密码 | 需 `grep` 日志获取 | 安装时交互设置 |
-| 安全加固 | 手动 | `mysql_secure_installation` |
-| 配置文件 | `/etc/my.cnf` | `/etc/mysql/mysql.conf.d/mysqld.cnf` |
-| 数据目录 | `/var/lib/mysql` | `/var/lib/mysql` |
-| 日志文件 | `/var/log/mysqld.log` | `/var/log/mysql/error.log` |
-| 开放端口 | `firewall-cmd` | `sudo ufw allow` |
+| 对比项   | CentOS                               | Ubuntu                               |
+| ----- | ------------------------------------ | ------------------------------------ |
+| 安装命令  | `yum install mysql-community-server` | `sudo apt install mysql-server`      |
+| 是否需加源 | 需先 rpm 安装官方 yum 源                    | 默认源已包含，无需加源                          |
+| 服务名   | `mysqld`                             | `mysql`                              |
+| 初始密码  | 需 `grep` 日志获取                        | 安装时交互设置                              |
+| 安全加固  | 手动                                   | `mysql_secure_installation`          |
+| 配置文件  | `/etc/my.cnf`                        | `/etc/mysql/mysql.conf.d/mysqld.cnf` |
+| 数据目录  | `/var/lib/mysql`                     | `/var/lib/mysql`                     |
+| 日志文件  | `/var/log/mysqld.log`                | `/var/log/mysql/error.log`           |
+| 开放端口  | `firewall-cmd`                       | `sudo ufw allow`                     |
 
 > 💡 **Ubuntu MySQL 8.0 注意：** Ubuntu 20.04+ 默认装 MySQL 8.0，root 默认用 `auth_socket` 认证（无需密码，仅限本地 sudo 登录）。若需密码登录，需 `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '密码';`。
 
----
+***
 
 ## 第六章 脚本 & 自动化
 
@@ -1605,17 +1636,17 @@ echo "passwd 文件有 $line_count 行"
 
 Shell 预定义了一组特殊变量，在脚本中非常常用：
 
-| 变量 | 含义 | 示例 |
-|------|------|------|
-| `$0` | 脚本文件名 | `./hello.sh` |
-| `$1`~`$9` | 第1~9个位置参数 | `./hello.sh arg1 arg2` 中 `$1=arg1` |
-| `${10}` | 第10个及以上参数（需用花括号） | |
-| `$#` | 参数总个数 | |
-| `$@` | 所有参数（每个参数独立） | 常用于 `for arg in "$@"` |
-| `$*` | 所有参数（合为一个字符串） | |
-| `$?` | 上一条命令的退出状态码（0=成功） | |
-| `$$` | 当前脚本的进程PID | |
-| `$!` | 最近一个后台进程的PID | |
+| 变量         | 含义                | 示例                                 |
+| ---------- | ----------------- | ---------------------------------- |
+| `$0`       | 脚本文件名             | `./hello.sh`                       |
+| `$1`\~`$9` | 第1\~9个位置参数        | `./hello.sh arg1 arg2` 中 `$1=arg1` |
+| `${10}`    | 第10个及以上参数（需用花括号）  | <br />                             |
+| `$#`       | 参数总个数             | <br />                             |
+| `$@`       | 所有参数（每个参数独立）      | 常用于 `for arg in "$@"`              |
+| `$*`       | 所有参数（合为一个字符串）     | <br />                             |
+| `$?`       | 上一条命令的退出状态码（0=成功） | <br />                             |
+| `$$`       | 当前脚本的进程PID        | <br />                             |
+| `$!`       | 最近一个后台进程的PID      | <br />                             |
 
 ```bash
 #!/bin/bash
@@ -1675,40 +1706,40 @@ else
 fi
 ```
 
-> ⚠️ **`[ ]` 的注意事项：** 方括号内两侧必须有空格！`[ $a = $b ]` 正确，`[$a=$b]` 错误。条件判断推荐用 `[[ ]]`（Bash 增强，支持 `&&`、`||`、模式匹配）。
+> ⚠️ **`[ ]`** **的注意事项：** 方括号内两侧必须有空格！`[ $a = $b ]` 正确，`[$a=$b]` 错误。条件判断推荐用 `[[ ]]`（Bash 增强，支持 `&&`、`||`、模式匹配）。
 
 #### 条件判断类型
 
 **1. 数值比较：**
 
-| 运算符 | 含义 | 示例 |
-|--------|------|------|
-| `-eq` | 等于 | `[ $a -eq $b ]` |
-| `-ne` | 不等于 | `[ $a -ne $b ]` |
-| `-gt` | 大于 | `[ $a -gt $b ]` |
-| `-lt` | 小于 | `[ $a -lt $b ]` |
+| 运算符   | 含义   | 示例              |
+| ----- | ---- | --------------- |
+| `-eq` | 等于   | `[ $a -eq $b ]` |
+| `-ne` | 不等于  | `[ $a -ne $b ]` |
+| `-gt` | 大于   | `[ $a -gt $b ]` |
+| `-lt` | 小于   | `[ $a -lt $b ]` |
 | `-ge` | 大于等于 | `[ $a -ge $b ]` |
 | `-le` | 小于等于 | `[ $a -le $b ]` |
 
 **2. 字符串比较：**
 
-| 运算符 | 含义 | 示例 |
-|--------|------|------|
-| `=` | 字符串相等 | `[ "$a" = "$b" ]` |
+| 运算符  | 含义    | 示例                 |
+| ---- | ----- | ------------------ |
+| `=`  | 字符串相等 | `[ "$a" = "$b" ]`  |
 | `!=` | 字符串不等 | `[ "$a" != "$b" ]` |
-| `-z` | 字符串为空 | `[ -z "$str" ]` |
-| `-n` | 字符串非空 | `[ -n "$str" ]` |
+| `-z` | 字符串为空 | `[ -z "$str" ]`    |
+| `-n` | 字符串非空 | `[ -n "$str" ]`    |
 
 **3. 文件判断：**
 
-| 运算符 | 含义 |
-|--------|------|
-| `-e 文件` | 文件存在 |
+| 运算符     | 含义       |
+| ------- | -------- |
+| `-e 文件` | 文件存在     |
 | `-f 文件` | 存在且为普通文件 |
-| `-d 文件` | 存在且为目录 |
-| `-r 文件` | 可读 |
-| `-w 文件` | 可写 |
-| `-x 文件` | 可执行 |
+| `-d 文件` | 存在且为目录   |
+| `-r 文件` | 可读       |
+| `-w 文件` | 可写       |
+| `-x 文件` | 可执行      |
 
 ```bash
 #!/bin/bash
@@ -2036,7 +2067,7 @@ echo "========================"
 
 #### 实战2：MySQL 自动备份脚本
 
-定时备份 MySQL 数据库，保留最近7天的备份。参考了 crontab + Shell 脚本的自动化组合方案 [$TRAE_REF](https://cloud.tencent.com/developer/article/2529803)。
+定时备份 MySQL 数据库，保留最近7天的备份。参考了 crontab + Shell 脚本的自动化组合方案 [\$TRAE\_REF](https://cloud.tencent.com/developer/article/2529803)。
 
 ```bash
 #!/bin/bash
@@ -2186,7 +2217,7 @@ echo "监控完成"
 
 ### 6.8 crontab 定时任务
 
-crontab 是 Linux 的定时任务调度器，类似于 Windows 的计划任务。crond 守护进程每分钟检查一次任务列表，按配置的时间自动执行。参考了 crontab 定时任务的配置方法 [$TRAE_REF](https://blog.csdn.net/xuguokun1986/article/details/52092105)。
+crontab 是 Linux 的定时任务调度器，类似于 Windows 的计划任务。crond 守护进程每分钟检查一次任务列表，按配置的时间自动执行。参考了 crontab 定时任务的配置方法 [\$TRAE\_REF](https://blog.csdn.net/xuguokun1986/article/details/52092105)。
 
 #### crontab 命令
 
@@ -2217,13 +2248,13 @@ sudo crontab -u username -e
 # +---------------- 分钟 (0-59)
 ```
 
-| 表达式 | 含义 |
-|--------|------|
-| `*/5 * * * * command` | 每5分钟执行一次 |
-| `0 * * * * command` | 每小时整点执行 |
-| `0 2 * * * command` | 每天凌晨2点执行 |
-| `0 0 * * 0 command` | 每周日凌晨执行 |
-| `0 0 1 * * command` | 每月1号凌晨执行 |
+| 表达式                       | 含义                 |
+| ------------------------- | ------------------ |
+| `*/5 * * * * command`     | 每5分钟执行一次           |
+| `0 * * * * command`       | 每小时整点执行            |
+| `0 2 * * * command`       | 每天凌晨2点执行           |
+| `0 0 * * 0 command`       | 每周日凌晨执行            |
+| `0 0 1 * * command`       | 每月1号凌晨执行           |
 | `30 8-18 * * 1-5 command` | 工作日8:30到18:30每小时执行 |
 
 #### 实战配置
@@ -2247,7 +2278,7 @@ crontab -e
 0 8 * * * echo "Daily Report" | mail -s "Server Status" admin@example.com
 ```
 
-> **`2>&1` 说明：** 将标准错误（2）重定向到标准输出（1），即把错误信息也写入日志文件。
+> **`2>&1`** **说明：** 将标准错误（2）重定向到标准输出（1），即把错误信息也写入日志文件。
 
 #### crond 服务管理
 
@@ -2262,7 +2293,7 @@ systemctl enable cron       # Ubuntu 开机自启
 systemctl status crond      # 查看状态
 ```
 
-> `<Ubuntu差异>` crontab 用法通用，但服务名不同：**CentOS 为 `crond`，Ubuntu 为 `cron`**。cron 日志位置也不同：CentOS 在 `/var/log/cron`，Ubuntu 在 `/var/log/syslog`（可用 `grep CRON /var/log/syslog` 过滤）。
+> `<Ubuntu差异>` crontab 用法通用，但服务名不同：**CentOS 为** **`crond`，Ubuntu 为** **`cron`**。cron 日志位置也不同：CentOS 在 `/var/log/cron`，Ubuntu 在 `/var/log/syslog`（可用 `grep CRON /var/log/syslog` 过滤）。
 
 #### crontab 使用注意事项
 
@@ -2271,11 +2302,11 @@ systemctl status crond      # 查看状态
 - **执行权限：** 确保脚本有执行权限 `chmod +x script.sh`。
 - **时区：** cron 使用系统时区，可用 `timedatectl` 确认。
 
----
+***
 
 ## 第七章 项目实战
 
-> 综合运用前六章所学知识，完成一个完整的 Web 项目部署。本章以部署 **Nginx + Node.js + Redis + MySQL** 全栈架构为例，涵盖从环境准备到服务上线的全流程。在生产环境中，几乎所有成熟系统都会在应用服务前增加一层 Nginx 反向代理，由 Nginx 统一对外提供访问入口 [$TRAE_REF](https://juejin.cn/post/7599581687358930994)。
+> 综合运用前六章所学知识，完成一个完整的 Web 项目部署。本章以部署 **Nginx + Node.js + Redis + MySQL** 全栈架构为例，涵盖从环境准备到服务上线的全流程。在生产环境中，几乎所有成熟系统都会在应用服务前增加一层 Nginx 反向代理，由 Nginx 统一对外提供访问入口 [\$TRAE\_REF](https://juejin.cn/post/7599581687358930994)。
 
 ### 7.1 项目架构概述
 
@@ -2308,16 +2339,16 @@ systemctl status crond      # 查看状态
 
 #### 各组件职责
 
-| 组件 | 端口 | 职责 |
-|------|------|------|
-| Nginx | 80/443 | 静态资源服务、反向代理、SSL终止、负载均衡 |
-| Node.js | 3000 | 后端 API 服务，处理业务逻辑 |
-| MySQL | 3306 | 数据持久化存储 |
-| Redis | 6379 | 缓存、Session 存储 |
+| 组件      | 端口     | 职责                     |
+| ------- | ------ | ---------------------- |
+| Nginx   | 80/443 | 静态资源服务、反向代理、SSL终止、负载均衡 |
+| Node.js | 3000   | 后端 API 服务，处理业务逻辑       |
+| MySQL   | 3306   | 数据持久化存储                |
+| Redis   | 6379   | 缓存、Session 存储          |
 
 ### 7.2 Nginx 部署
 
-Nginx 是一款高性能的 HTTP 服务器和反向代理服务器，由俄罗斯程序员 Igor Sysoev 开发 [$TRAE_REF](https://cloud.tencent.com/developer/article/2028960)。
+Nginx 是一款高性能的 HTTP 服务器和反向代理服务器，由俄罗斯程序员 Igor Sysoev 开发 [\$TRAE\_REF](https://cloud.tencent.com/developer/article/2028960)。
 
 #### 安装 Nginx
 
@@ -2409,7 +2440,7 @@ http {
 
 #### 配置反向代理
 
-反向代理是 Nginx 最常用的功能之一：客户端访问 Nginx，Nginx 将请求转发到后端 Node.js 服务 [$TRAE_REF](https://juejin.cn/post/7599581687358930994)。
+反向代理是 Nginx 最常用的功能之一：客户端访问 Nginx，Nginx 将请求转发到后端 Node.js 服务 [\$TRAE\_REF](https://juejin.cn/post/7599581687358930994)。
 
 ```nginx
 # /etc/nginx/conf.d/myapp.conf (CentOS)
@@ -2487,6 +2518,7 @@ server {
 ```
 
 > `<Ubuntu差异>` Nginx 安装命令不同（`yum` vs `apt`），但配置文件语法完全一致。主要差异：
+>
 > - **站点配置目录：** CentOS 用 `/etc/nginx/conf.d/*.conf`，Ubuntu 用 `/etc/nginx/sites-available/` + `sites-enabled/`（通过软链接启用）。
 > - **默认网站根目录：** CentOS 为 `/usr/share/nginx/html`，Ubuntu 为 `/var/www/html`。
 > - **默认用户：** CentOS 的 Nginx worker 进程用户为 `nginx`，Ubuntu 为 `www-data`（配置文件中 `user` 指令不同）。
@@ -2730,17 +2762,18 @@ echo "日志目录：$LOG_DIR"
 
 #### 部署后验证清单
 
-| 检查项 | 命令 | 预期结果 |
-|--------|------|----------|
-| Nginx 运行 | `systemctl status nginx` | active (running) |
-| Node.js 进程 | `pm2 list` | myapp online |
-| MySQL 连接 | `mysql -uroot -p -e "SELECT 1"` | 返回 1 |
-| Redis 连接 | `redis-cli ping` | PONG |
-| 端口监听 | `ss -tulnp \| grep -E '80\|3000\|3306\|6379'` | 四个端口都在监听 |
-| 页面访问 | `curl http://localhost` | 返回 HTML |
-| API 测试 | `curl http://localhost/api/health` | 返回 JSON |
+| 检查项        | 命令                                            | 预期结果             |
+| ---------- | --------------------------------------------- | ---------------- |
+| Nginx 运行   | `systemctl status nginx`                      | active (running) |
+| Node.js 进程 | `pm2 list`                                    | myapp online     |
+| MySQL 连接   | `mysql -uroot -p -e "SELECT 1"`               | 返回 1             |
+| Redis 连接   | `redis-cli ping`                              | PONG             |
+| 端口监听       | `ss -tulnp \| grep -E '80\|3000\|3306\|6379'` | 四个端口都在监听         |
+| 页面访问       | `curl http://localhost`                       | 返回 HTML          |
+| API 测试     | `curl http://localhost/api/health`            | 返回 JSON          |
 
 > 💡 **生产环境建议：**
+>
 > - 使用 HTTPS（Let's Encrypt 免费证书 + Nginx SSL 配置）
 > - 配置防火墙，仅开放必要端口（80/443/22）
 > - 设置 MySQL 和 Redis 密码
@@ -2748,7 +2781,7 @@ echo "日志目录：$LOG_DIR"
 > - 使用 PM2 集群模式提高可用性
 > - 配置 Nginx 日志轮转（logrotate）
 
----
+***
 
 ## 第八章 云平台技术
 
@@ -2758,28 +2791,28 @@ echo "日志目录：$LOG_DIR"
 
 #### 云计算服务模型
 
-| 模型 | 全称 | 说明 | 典型产品 |
-|------|------|------|----------|
-| **IaaS** | 基础设施即服务 | 提供虚拟机、存储、网络等基础资源 | 阿里云ECS、AWS EC2、腾讯云CVM |
-| **PaaS** | 平台即服务 | 提供运行环境、数据库、中间件 | 阿里云PaaS、Heroku、Google App Engine |
-| **SaaS** | 软件即服务 | 提供可直接使用的应用软件 | 钉钉、企业微信、Office 365 |
+| 模型       | 全称      | 说明               | 典型产品                             |
+| -------- | ------- | ---------------- | -------------------------------- |
+| **IaaS** | 基础设施即服务 | 提供虚拟机、存储、网络等基础资源 | 阿里云ECS、AWS EC2、腾讯云CVM            |
+| **PaaS** | 平台即服务   | 提供运行环境、数据库、中间件   | 阿里云PaaS、Heroku、Google App Engine |
+| **SaaS** | 软件即服务   | 提供可直接使用的应用软件     | 钉钉、企业微信、Office 365               |
 
 #### 云计算部署模型
 
-| 模型 | 说明 | 适用场景 |
-|------|------|----------|
+| 模型      | 说明          | 适用场景       |
+| ------- | ----------- | ---------- |
 | **公有云** | 第三方提供，多租户共享 | 创业公司、互联网应用 |
-| **私有云** | 企业自建，独享资源 | 政府、金融、大型企业 |
-| **混合云** | 公有云+私有云组合 | 业务弹性扩展场景 |
+| **私有云** | 企业自建，独享资源   | 政府、金融、大型企业 |
+| **混合云** | 公有云+私有云组合   | 业务弹性扩展场景   |
 
 #### 国内主流云平台
 
-| 云平台 | 特点 | 适用场景 |
-|--------|------|----------|
-| **阿里云** | 国内市场份额第一，产品线最全 | 企业级应用、电商 |
-| **腾讯云** | 社交/游戏生态强，性价比高 | 游戏、直播、社交 |
-| **华为云** | 政企客户多，安全合规强 | 政务、大型企业 |
-| **AWS中国** | 全球化部署，技术领先 | 跨国企业、出海业务 |
+| 云平台       | 特点             | 适用场景      |
+| --------- | -------------- | --------- |
+| **阿里云**   | 国内市场份额第一，产品线最全 | 企业级应用、电商  |
+| **腾讯云**   | 社交/游戏生态强，性价比高  | 游戏、直播、社交  |
+| **华为云**   | 政企客户多，安全合规强    | 政务、大型企业   |
+| **AWS中国** | 全球化部署，技术领先     | 跨国企业、出海业务 |
 
 ### 8.2 容器化技术概述
 
@@ -2789,34 +2822,34 @@ echo "日志目录：$LOG_DIR"
 
 #### 容器 vs 虚拟机
 
-| 对比维度 | 虚拟机 (VM) | 容器 (Container) |
-|----------|-------------|------------------|
-| **虚拟化层级** | 硬件级虚拟化 | 操作系统级虚拟化 |
-| **内核** | 每个VM有独立内核 | 共享宿主机内核 |
-| **启动速度** | 分钟级 | 秒级 |
-| **资源占用** | GB级 | MB级 |
-| **隔离性** | 强（完全隔离） | 中等（进程级隔离） |
-| **镜像大小** | GB级 | MB级 |
-| **部署密度** | 单机几个 | 单机几十上百个 |
-| **跨平台** | 需相同架构 | 需相同架构+内核 |
+| 对比维度      | 虚拟机 (VM)  | 容器 (Container) |
+| --------- | --------- | -------------- |
+| **虚拟化层级** | 硬件级虚拟化    | 操作系统级虚拟化       |
+| **内核**    | 每个VM有独立内核 | 共享宿主机内核        |
+| **启动速度**  | 分钟级       | 秒级             |
+| **资源占用**  | GB级       | MB级            |
+| **隔离性**   | 强（完全隔离）   | 中等（进程级隔离）      |
+| **镜像大小**  | GB级       | MB级            |
+| **部署密度**  | 单机几个      | 单机几十上百个        |
+| **跨平台**   | 需相同架构     | 需相同架构+内核       |
 
 #### Docker 简介
 
-Docker 是最流行的容器化平台，基于 Go 语言开发，遵循 Apache 2.0 协议开源。Docker 让开发者将应用及依赖打包到轻量级、可移植的容器中，实现"一次构建，到处运行" [$TRAE_REF](https://www.cnblogs.com/apanly/p/6983693.html)。
+Docker 是最流行的容器化平台，基于 Go 语言开发，遵循 Apache 2.0 协议开源。Docker 让开发者将应用及依赖打包到轻量级、可移植的容器中，实现"一次构建，到处运行" [\$TRAE\_REF](https://www.cnblogs.com/apanly/p/6983693.html)。
 
 **Docker 三大核心概念：**
 
-| 概念 | 类比 | 说明 |
-|------|------|------|
-| **镜像 (Image)** | 程序安装包 | 只读模板，包含应用运行所需的所有内容 |
-| **容器 (Container)** | 运行中的程序 | 镜像的运行实例，可启动/停止/删除 |
-| **仓库 (Registry)** | 应用商店 | 存储和分发镜像（如 Docker Hub） |
+| 概念                 | 类比     | 说明                    |
+| ------------------ | ------ | --------------------- |
+| **镜像 (Image)**     | 程序安装包  | 只读模板，包含应用运行所需的所有内容    |
+| **容器 (Container)** | 运行中的程序 | 镜像的运行实例，可启动/停止/删除     |
+| **仓库 (Registry)**  | 应用商店   | 存储和分发镜像（如 Docker Hub） |
 
 ### 8.3 Docker 安装
 
 #### CentOS 安装 Docker
 
-官方推荐使用 Docker 的 yum/dnf 仓库安装 [$TRAE_REF](https://docs.docker.com/engine/install/centos/)：
+官方推荐使用 Docker 的 yum/dnf 仓库安装 [\$TRAE\_REF](https://docs.docker.com/engine/install/centos/)：
 
 ```bash
 # 1. 卸载旧版本
@@ -2848,7 +2881,7 @@ sudo docker run hello-world
 
 #### Ubuntu 安装 Docker
 
-官方推荐使用 Docker 的 apt 仓库安装 [$TRAE_REF](https://docs.docker.com/engine/install/ubuntu/)：
+官方推荐使用 Docker 的 apt 仓库安装 [\$TRAE\_REF](https://docs.docker.com/engine/install/ubuntu/)：
 
 ```bash
 # 1. 卸载旧版本
@@ -3113,18 +3146,18 @@ Dockerfile 是一个文本文件，包含一系列指令，用于自动构建 Do
 
 #### 常用指令
 
-| 指令 | 作用 | 示例 |
-|------|------|------|
-| `FROM` | 基础镜像（必须为第一条指令） | `FROM node:18-alpine` |
-| `WORKDIR` | 设置工作目录 | `WORKDIR /app` |
-| `COPY` | 复制文件到镜像 | `COPY . /app` |
-| `RUN` | 构建时执行命令 | `RUN npm install` |
-| `ENV` | 设置环境变量 | `ENV NODE_ENV=production` |
-| `EXPOSE` | 声明端口（仅声明，不映射） | `EXPOSE 3000` |
-| `CMD` | 容器启动时默认命令 | `CMD ["node", "app.js"]` |
-| `ENTRYPOINT` | 容器启动入口命令 | `ENTRYPOINT ["node"]` |
-| `ARG` | 构建时变量 | `ARG VERSION=1.0` |
-| `VOLUME` | 声明挂载点 | `VOLUME /data` |
+| 指令           | 作用             | 示例                        |
+| ------------ | -------------- | ------------------------- |
+| `FROM`       | 基础镜像（必须为第一条指令） | `FROM node:18-alpine`     |
+| `WORKDIR`    | 设置工作目录         | `WORKDIR /app`            |
+| `COPY`       | 复制文件到镜像        | `COPY . /app`             |
+| `RUN`        | 构建时执行命令        | `RUN npm install`         |
+| `ENV`        | 设置环境变量         | `ENV NODE_ENV=production` |
+| `EXPOSE`     | 声明端口（仅声明，不映射）  | `EXPOSE 3000`             |
+| `CMD`        | 容器启动时默认命令      | `CMD ["node", "app.js"]`  |
+| `ENTRYPOINT` | 容器启动入口命令       | `ENTRYPOINT ["node"]`     |
+| `ARG`        | 构建时变量          | `ARG VERSION=1.0`         |
+| `VOLUME`     | 声明挂载点          | `VOLUME /data`            |
 
 #### Node.js 项目 Dockerfile 示例
 
@@ -3325,7 +3358,7 @@ docker compose config
 
 ### 8.8 Kubernetes 基础
 
-Kubernetes（简称 K8s）是 Google 开源的容器编排平台，用于自动部署、扩展和管理容器化应用。当容器数量增多、需要跨多台服务器管理时，K8s 是行业标准 [$TRAE_REF](https://cloud.tencent.com/developer/article/2597063)。
+Kubernetes（简称 K8s）是 Google 开源的容器编排平台，用于自动部署、扩展和管理容器化应用。当容器数量增多、需要跨多台服务器管理时，K8s 是行业标准 [\$TRAE\_REF](https://cloud.tencent.com/developer/article/2597063)。
 
 #### K8s 架构概览
 
@@ -3355,24 +3388,24 @@ Kubernetes（简称 K8s）是 Google 开源的容器编排平台，用于自动�
 
 **Master 节点（控制平面）：**
 
-| 组件 | 作用 |
-|------|------|
-| **API Server** | 集群入口，所有操作通过 API Server 进行 |
-| **Scheduler** | 调度器，决定 Pod 运行在哪个节点 |
-| **Controller Manager** | 控制器，维护集群状态（如自动重启故障 Pod） |
-| **etcd** | 分布式键值存储，保存集群所有配置和状态数据 |
+| 组件                     | 作用                        |
+| ---------------------- | ------------------------- |
+| **API Server**         | 集群入口，所有操作通过 API Server 进行 |
+| **Scheduler**          | 调度器，决定 Pod 运行在哪个节点        |
+| **Controller Manager** | 控制器，维护集群状态（如自动重启故障 Pod）   |
+| **etcd**               | 分布式键值存储，保存集群所有配置和状态数据     |
 
 **Worker 节点：**
 
-| 组件 | 作用 |
-|------|------|
-| **kubelet** | 节点代理，管理本节点 Pod 的生命周期 |
-| **kube-proxy** | 网络代理，负责 Service 的负载均衡和流量转发 |
-| **容器运行时** | 运行容器的引擎（containerd / Docker） |
+| 组件             | 作用                           |
+| -------------- | ---------------------------- |
+| **kubelet**    | 节点代理，管理本节点 Pod 的生命周期         |
+| **kube-proxy** | 网络代理，负责 Service 的负载均衡和流量转发   |
+| **容器运行时**      | 运行容器的引擎（containerd / Docker） |
 
 #### K8s 四大核心概念
 
-以下概念解析基于腾讯云开发者社区的技术文章 [$TRAE_REF](https://cloud.tencent.com/developer/article/2597063)。
+以下概念解析基于腾讯云开发者社区的技术文章 [\$TRAE\_REF](https://cloud.tencent.com/developer/article/2597063)。
 
 **1. Pod - 最小部署单元**
 
@@ -3423,12 +3456,12 @@ spec:
 
 **Service 类型对比：**
 
-| 类型 | 访问范围 | 说明 |
-|------|----------|------|
-| ClusterIP | 集群内部 | 默认类型，生成集群内虚拟 IP |
-| NodePort | 集群外部 | 在每个节点开放端口，`节点IP:NodePort` 访问 |
-| LoadBalancer | 公网 | 结合云厂商负载均衡器，分配公网 IP |
-| ExternalName | 外部域名 | 将 Service 映射到外部 DNS 名称 |
+| 类型           | 访问范围 | 说明                           |
+| ------------ | ---- | ---------------------------- |
+| ClusterIP    | 集群内部 | 默认类型，生成集群内虚拟 IP              |
+| NodePort     | 集群外部 | 在每个节点开放端口，`节点IP:NodePort` 访问 |
+| LoadBalancer | 公网   | 结合云厂商负载均衡器，分配公网 IP           |
+| ExternalName | 外部域名 | 将 Service 映射到外部 DNS 名称       |
 
 **3. Deployment - 声明式管理**
 
@@ -3592,38 +3625,38 @@ kubectl label pod nginx-pod env-
 
 #### 常用命令速查表
 
-| 分类 | 命令 | 功能 | CentOS/Ubuntu |
-|------|------|------|---------------|
-| Docker镜像 | `docker pull nginx` | 拉取镜像 | 通用 |
-| Docker镜像 | `docker images` | 列出镜像 | 通用 |
-| Docker镜像 | `docker build -t name .` | 构建镜像 | 通用 |
-| Docker镜像 | `docker rmi 镜像ID` | 删除镜像 | 通用 |
-| Docker容器 | `docker run -d --name c -p 80:80 nginx` | 启动容器 | 通用 |
-| Docker容器 | `docker ps -a` | 列出容器 | 通用 |
-| Docker容器 | `docker logs -f 容器名` | 查看日志 | 通用 |
-| Docker容器 | `docker exec -it 容器名 bash` | 进入容器 | 通用 |
-| Docker容器 | `docker stop/rm 容器名` | 停止/删除 | 通用 |
-| Compose | `docker compose up -d` | 启动服务栈 | 通用 |
-| Compose | `docker compose down` | 停止删除 | 通用 |
-| Compose | `docker compose logs -f` | 查看日志 | 通用 |
-| K8s | `kubectl get pods` | 查看 Pod | 通用 |
-| K8s | `kubectl apply -f file.yaml` | 部署资源 | 通用 |
-| K8s | `kubectl describe pod 名称` | 查看 Pod 详情 | 通用 |
-| K8s | `kubectl logs pod名称` | 查看日志 | 通用 |
-| K8s | `kubectl scale deploy 名称 --replicas=N` | 扩缩容 | 通用 |
-| K8s | `kubectl rollout undo deploy 名称` | 回滚 | 通用 |
+| 分类       | 命令                                      | 功能        | CentOS/Ubuntu |
+| -------- | --------------------------------------- | --------- | ------------- |
+| Docker镜像 | `docker pull nginx`                     | 拉取镜像      | 通用            |
+| Docker镜像 | `docker images`                         | 列出镜像      | 通用            |
+| Docker镜像 | `docker build -t name .`                | 构建镜像      | 通用            |
+| Docker镜像 | `docker rmi 镜像ID`                       | 删除镜像      | 通用            |
+| Docker容器 | `docker run -d --name c -p 80:80 nginx` | 启动容器      | 通用            |
+| Docker容器 | `docker ps -a`                          | 列出容器      | 通用            |
+| Docker容器 | `docker logs -f 容器名`                    | 查看日志      | 通用            |
+| Docker容器 | `docker exec -it 容器名 bash`              | 进入容器      | 通用            |
+| Docker容器 | `docker stop/rm 容器名`                    | 停止/删除     | 通用            |
+| Compose  | `docker compose up -d`                  | 启动服务栈     | 通用            |
+| Compose  | `docker compose down`                   | 停止删除      | 通用            |
+| Compose  | `docker compose logs -f`                | 查看日志      | 通用            |
+| K8s      | `kubectl get pods`                      | 查看 Pod    | 通用            |
+| K8s      | `kubectl apply -f file.yaml`            | 部署资源      | 通用            |
+| K8s      | `kubectl describe pod 名称`               | 查看 Pod 详情 | 通用            |
+| K8s      | `kubectl logs pod名称`                    | 查看日志      | 通用            |
+| K8s      | `kubectl scale deploy 名称 --replicas=N`  | 扩缩容       | 通用            |
+| K8s      | `kubectl rollout undo deploy 名称`        | 回滚        | 通用            |
 
 #### 进阶学习方向
 
-| 方向 | 内容 | 推荐资源 |
-|------|------|----------|
-| **Docker 进阶** | 网络模型、数据卷、安全、镜像优化 | [Docker 官方文档](https://docs.docker.com/) |
-| **Docker Compose** | 多服务编排、环境隔离、CI/CD 集成 | [Compose 文档](https://docs.docker.com/compose/) |
-| **K8s 进阶** | ConfigMap/Secret、StatefulSet、DaemonSet、HPA | [K8s 官方文档](https://kubernetes.io/zh-cn/docs/) |
-| **K8s 集群搭建** | kubeadm 部署、生产级集群 | [kubeadm 文档](https://kubernetes.io/zh-cn/docs/setup/production-environment/tools/kubeadm/) |
-| **CI/CD** | Jenkins、GitLab CI、GitHub Actions | 实践项目 |
-| **服务网格** | Istio、Linkerd | 云原生进阶 |
-| **监控告警** | Prometheus + Grafana | 运维监控体系 |
+| 方向                 | 内容                                         | 推荐资源                                                                                       |
+| ------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| **Docker 进阶**      | 网络模型、数据卷、安全、镜像优化                           | [Docker 官方文档](https://docs.docker.com/)                                                    |
+| **Docker Compose** | 多服务编排、环境隔离、CI/CD 集成                        | [Compose 文档](https://docs.docker.com/compose/)                                             |
+| **K8s 进阶**         | ConfigMap/Secret、StatefulSet、DaemonSet、HPA | [K8s 官方文档](https://kubernetes.io/zh-cn/docs/)                                              |
+| **K8s 集群搭建**       | kubeadm 部署、生产级集群                           | [kubeadm 文档](https://kubernetes.io/zh-cn/docs/setup/production-environment/tools/kubeadm/) |
+| **CI/CD**          | Jenkins、GitLab CI、GitHub Actions           | 实践项目                                                                                       |
+| **服务网格**           | Istio、Linkerd                              | 云原生进阶                                                                                      |
+| **监控告警**           | Prometheus + Grafana                       | 运维监控体系                                                                                     |
 
 #### 学习建议
 
@@ -3636,13 +3669,14 @@ kubectl label pod nginx-pod env-
 - **实践优先：** 搭建虚拟机环境，按笔记中的命令逐一实操
 - **容器思维：** 从传统部署向容器化部署转变，理解"不可变基础设施"理念
 
----
+***
 
 > 📖 **参考资料：**
+>
 > - [CSDN博客 - Linux笔记](https://blog.csdn.net/u011005040/article/details/127836760)
 > - [Docker 官方文档 - CentOS 安装](https://docs.docker.com/engine/install/centos/)
 > - [Docker 官方文档 - Ubuntu 安装](https://docs.docker.com/engine/install/ubuntu/)
 > - [K8s 核心概念解析](https://cloud.tencent.com/developer/article/2597063)
 >
 > 📅 整理时间：2026年7月 | 本笔记为学习整理，命令和操作请在理解基础上使用
->
+
