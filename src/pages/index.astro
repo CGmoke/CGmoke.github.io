@@ -33,7 +33,12 @@ for (let y = githubStartYear; y <= buildYear; y++) {
 }
 
 const codingPosts = await Astro.glob('../pages/coding/*.md')
-const blogPosts = await Astro.glob('../pages/blog/*.md')
+let blogPosts: { frontmatter: any }[] = []
+try {
+  blogPosts = await Astro.glob('../pages/blog/*.md')
+} catch {
+  blogPosts = []
+}
 let reshipPosts: { frontmatter: any }[] = []
 try {
   reshipPosts = await Astro.glob('../pages/reship/*.md')

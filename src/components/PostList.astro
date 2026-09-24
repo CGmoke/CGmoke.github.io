@@ -2,7 +2,13 @@
 import ArticleList from './ArticleList.astro'
 import MobileArticleList from './MobileArticleList.astro'
 
-const posts = await Astro.glob("../pages/blog/*.md")
+let posts: { frontmatter: any }[] = []
+try {
+  posts = await Astro.glob("../pages/blog/*.md")
+} catch {
+  // blog 目录为空时不抛错
+  posts = []
+}
 
 // sort post by date
 posts.sort((a, b) => {

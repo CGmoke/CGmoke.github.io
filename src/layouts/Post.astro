@@ -10,7 +10,12 @@ import config from '../config'
 const { frontmatter, headings } = Astro.props
 
 const codingPosts = await Astro.glob('../pages/coding/*.md')
-const blogPosts = await Astro.glob('../pages/blog/*.md')
+let blogPosts: { frontmatter: any }[] = []
+try {
+  blogPosts = await Astro.glob('../pages/blog/*.md')
+} catch {
+  blogPosts = []
+}
 let reship: { frontmatter: any }[] = []
 try {
   reship = await Astro.glob('../pages/reship/*.md')
