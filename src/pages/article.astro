@@ -6,7 +6,13 @@ import ReshipList from '@/components/Reship'
 
 const codingPosts = await Astro.glob('../pages/coding/*.md')
 const blogPosts = await Astro.glob('../pages/blog/*.md')
-const reshipPosts = await Astro.glob('../pages/reship/*.md')
+let reshipPosts: { frontmatter: any }[] = []
+try {
+  reshipPosts = await Astro.glob('../pages/reship/*.md')
+} catch {
+  // reship 目录为空时不抛错
+  reshipPosts = []
+}
 
 const allPosts = [...codingPosts, ...blogPosts, ...reshipPosts].sort((a, b) => {
   //@ts-ignore

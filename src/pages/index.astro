@@ -34,7 +34,13 @@ for (let y = githubStartYear; y <= buildYear; y++) {
 
 const codingPosts = await Astro.glob('../pages/coding/*.md')
 const blogPosts = await Astro.glob('../pages/blog/*.md')
-const reshipPosts = await Astro.glob('../pages/reship/*.md')
+let reshipPosts: { frontmatter: any }[] = []
+try {
+  reshipPosts = await Astro.glob('../pages/reship/*.md')
+} catch {
+  // reship 目录为空时不抛错
+  reshipPosts = []
+}
 const totalPosts = codingPosts.length + blogPosts.length + reshipPosts.length
 
 const roadmap = config.roadmap as RoadmapItem[]

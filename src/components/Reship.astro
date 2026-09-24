@@ -2,7 +2,13 @@
 import ArticleList from './ArticleList.astro'
 import MobileArticleList from './MobileArticleList.astro'
 
-const posts = await Astro.glob('../pages/reship/*.md')
+let posts = []
+try {
+  posts = await Astro.glob('../pages/reship/*.md')
+} catch {
+  // reship 目录为空时不抛错，按空列表处理
+  posts = []
+}
 // sort post by date
 posts.sort((a, b) => {
   //@ts-ignore

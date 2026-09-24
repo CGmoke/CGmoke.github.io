@@ -11,7 +11,13 @@ const { frontmatter, headings } = Astro.props
 
 const codingPosts = await Astro.glob('../pages/coding/*.md')
 const blogPosts = await Astro.glob('../pages/blog/*.md')
-const reship = await Astro.glob('../pages/reship/*.md')
+let reship: { frontmatter: any }[] = []
+try {
+  reship = await Astro.glob('../pages/reship/*.md')
+} catch {
+  // reship 目录为空时不抛错
+  reship = []
+}
 const posts = [...codingPosts, ...blogPosts, ...reship]
 
 const filteredPosts = posts.filter((post) => post.frontmatter.categories.join(',') === frontmatter.categories.join(',') && post.frontmatter.title !== frontmatter.title)
