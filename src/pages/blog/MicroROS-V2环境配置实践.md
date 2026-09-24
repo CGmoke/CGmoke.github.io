@@ -1,7 +1,7 @@
 ---
 title: MicroROS-V2环境配置实践
 layout: '@/layouts/Post'
-date: 2026-09-10
+date: 2026-09-24
 tags: [MicroROS-V2]
 pin: false
 language: 中文
