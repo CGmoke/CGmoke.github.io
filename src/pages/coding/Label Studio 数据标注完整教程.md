@@ -1,7 +1,7 @@
 ---
 title: Label Studio 数据标注完整教程
 layout: '@/layouts/Post'
-date: 2026-09-30
+date: 2026-09-28
 tags:
   - label-studio
   - yolo
