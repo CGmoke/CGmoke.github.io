@@ -13,19 +13,19 @@ export async function getArticleData() {
   const blogPosts = await fg('src/pages/blog/**/*.md');
   const reship = await fg('src/pages/reship/**/*.md');
 
-  const posts = [...codingPosts, ...blogPosts, ...reship].map(file => {
+  const modifiedDates = [...codingPosts, ...blogPosts, ...reship].map(file => {
     const content = fs.readFileSync(file, 'utf-8');
     const result = matter(content);
-    return result.data.date;
-  });
-
-  const modifiedDates = posts.map((post) => {
-    const dateString = post.toISOString();
-    return dateString.split('T')[0]
+    const date = result.data.date;
+    const parsedDate = date instanceof Date ? date : new Date(String(date));
+    if (Number.isNaN(parsedDate.getTime())) {
+      throw new Error(`Invalid or missing article date in ${file}: ${String(date)}`);
+    }
+    return parsedDate.toISOString().split('T')[0];
   });
 
   const article = {
-    totalContributions: posts.length,
+    totalContributions: modifiedDates.length,
     weeks: [
       {
         contributionDays: modifiedDates.map((date) => ({
