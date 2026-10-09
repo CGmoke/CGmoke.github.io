@@ -12,7 +12,7 @@ label:
 description:
   - Python算法刷题全攻略
 image:
-  - /Python算法刷题全攻略.jpg
+  - /cover/Python算法刷题全攻略.jpg
 ---
 # Python 算法刷题全攻略：从入门到进阶的实战方法论
 
